@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bahn | Renta de vehiculos</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <script defer src="/js/common.js"></script>
+    <script defer src="/js/wishlist.js"></script>
+  </head>
+  <body class="page" data-page-title="app_title">
+    <header class="main-header">
+      <div class="main-header__inner">
+        <a class="brand brand--dark" href="/">
+          <span class="brand__mark">B</span>
+          <span>Bahn</span>
+        </a>
+        <form class="search-bar search-bar--compact" data-search-form>
+          <label class="search-bar__field">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="M20 20l-4-4"></path>
+            </svg>
+            <input type="text" name="q" data-i18n-placeholder="search_placeholder_compact" placeholder="Busca por vehiculo, marca o modelo">
+          </label>
+          <label class="search-bar__field">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 21s6-5.5 6-11a6 6 0 1 0-12 0c0 5.5 6 11 6 11Z"></path>
+              <circle cx="12" cy="10" r="2.5"></circle>
+            </svg>
+            <input type="text" name="location" data-i18n-placeholder="search_placeholder_location" placeholder="Ubicacion, ciudad o direccion">
+          </label>
+          <button type="submit" data-i18n="search_button">Buscar</button>
+        </form>
+
+        <div class="header-actions">
+          <div data-language-slot></div>
+          <a class="header-icon" href="/wishlist" data-i18n-aria-label="open_wishlist" aria-label="Ver favoritos">
+            &#9825;
+            <small data-wishlist-count>0</small>
+          </a>
+          <div class="header-user">
+            <div class="header-user__avatar">&#9711;</div>
+            <div class="header-user__meta">
+              <strong data-user-name>Usuario / Menu</strong>
+              <span data-user-role>Invitado</span>
+              <button type="button" data-logout-btn hidden>Cerrar sesion</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="page-shell">
+      <div class="page-copy">
+        <h1 data-i18n="wishlist_title">Favoritos</h1>
+        <p id="wishlist-total">0 guardados</p>
+      </div>
+      <section class="listing-grid" id="wishlist-grid"></section>
+    </main>
+  </body>
+</html>

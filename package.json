@@ -1,0 +1,10 @@
+{
+  "name": "bahn-platform",
+  "version": "1.0.0",
+  "description": "Plataforma web de alquiler P2P de vehiculos y maquinaria inspirada en el mockup de Bahn.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "license": "MIT"
+}

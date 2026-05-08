@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bahn | Renta de vehiculos</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <script defer src="/js/common.js"></script>
+    <script defer src="/js/index.js"></script>
+  </head>
+  <body class="page page-home" data-page-title="app_title">
+    <section class="hero-shell">
+      <header class="hero-header container">
+        <a class="brand brand--dark" href="/">
+          <span class="brand__mark">B</span>
+          <span>Bahn</span>
+        </a>
+        <nav class="hero-actions">
+          <div data-language-slot></div>
+          <a class="btn btn--light" href="/dashboard" data-i18n="nav_post_vehicle">Publicar vehiculo</a>
+          <a class="btn btn--outline" href="/auth" data-auth-link>Entrar / Registro</a>
+        </nav>
+      </header>
+
+      <div class="hero-content container">
+        <h1 class="hero-title" id="home-title" data-i18n="home_title">Bahn | Renta de vehiculos</h1>
+        <p class="hero-subtitle" data-i18n="home_subtitle">Autos, motos y maquinaria en una sola plataforma</p>
+
+        <form class="search-bar search-bar--hero" data-search-form>
+          <label class="search-bar__field">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="M20 20l-4-4"></path>
+            </svg>
+            <input type="text" name="q" data-i18n-placeholder="search_placeholder_home" placeholder="Que vehiculo o maquinaria necesitas?">
+          </label>
+          <label class="search-bar__field">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 21s6-5.5 6-11a6 6 0 1 0-12 0c0 5.5 6 11 6 11Z"></path>
+              <circle cx="12" cy="10" r="2.5"></circle>
+            </svg>
+            <input type="text" name="location" data-i18n-placeholder="search_placeholder_location" placeholder="Ubicacion, ciudad o direccion">
+          </label>
+          <button type="submit" data-i18n="search_button">Buscar</button>
+        </form>
+      </div>
+    </section>
+
+    <main class="container content-overlap">
+      <section class="surface-panel">
+        <div class="hero-categories">
+          <a class="category-card" href="/catalog?category=car">
+            <div class="category-card__image"><img src="https://images.unsplash.com/photo-1775748420849-f198903bfa5e?auto=format&fit=crop&fm=jpg&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&ixlib=rb-4.1.0&q=60&w=1200" alt="Carro"></div>
+            <h2 class="category-card__title" data-i18n="category_car">Carros</h2>
+          </a>
+          <a class="category-card" href="/catalog?category=motorcycle">
+            <div class="category-card__image"><img src="https://images.unsplash.com/photo-1518057014654-ba829c396280?auto=format&fit=crop&fm=jpg&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&ixlib=rb-4.1.0&q=60&w=1200" alt="Motocicleta"></div>
+            <h2 class="category-card__title" data-i18n="category_motorcycle">Motocicletas</h2>
+          </a>
+          <a class="category-card" href="/catalog?category=heavy">
+            <div class="category-card__image"><img src="https://images.unsplash.com/photo-1751054619908-65d27a503ce8?auto=format&fit=crop&fm=jpg&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&ixlib=rb-4.1.0&q=60&w=1200" alt="Maquinaria pesada"></div>
+            <h2 class="category-card__title" data-i18n="category_heavy">Maquinaria pesada</h2>
+          </a>
+          <a class="category-card" href="/catalog?category=agricultural">
+            <div class="category-card__image"><img src="https://images.unsplash.com/photo-1689791649990-03f270b73ce3?auto=format&fit=crop&fm=jpg&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&ixlib=rb-4.1.0&q=60&w=1200" alt="Agricola"></div>
+            <h2 class="category-card__title" data-i18n="category_agricultural">Agricola</h2>
+          </a>
+        </div>
+
+        <section class="section-block">
+          <div class="section-heading">
+            <div>
+              <h2 data-i18n="featured_listings">Publicaciones destacadas</h2>
+            </div>
+            <a class="link-arrow" href="/catalog" data-i18n="explore_catalog">Explorar catalogo</a>
+          </div>
+          <div class="listing-grid" id="featured-listings"></div>
+        </section>
+
+        <section class="section-block">
+          <div class="section-heading">
+            <div>
+              <h2 data-i18n="recently_added">Recien agregados</h2>
+              <p data-i18n="recent_desc">Vehiculos activos con contacto directo y filtros rapidos.</p>
+            </div>
+            <a class="link-arrow" href="/wishlist" data-i18n="open_wishlist">Ver favoritos</a>
+          </div>
+          <div class="listing-grid" id="recent-listings"></div>
+        </section>
+
+        <section class="info-strip">
+          <article class="info-card">
+            <h3 data-i18n="info_search_title">Busca en segundos</h3>
+            <p data-i18n="info_search_desc">Filtra por marca, modelo, ciudad, precio y condicion desde un mismo catalogo.</p>
+          </article>
+          <article class="info-card">
+            <h3 data-i18n="info_contact_title">Contacto directo</h3>
+            <p data-i18n="info_contact_desc">Sin pagos dentro de la plataforma. Aqui conectas con el arrendador rapido.</p>
+          </article>
+          <article class="info-card">
+            <h3 data-i18n="info_dashboard_title">Panel de inventario</h3>
+            <p data-i18n="info_dashboard_desc">Los arrendadores publican, editan y eliminan vehiculos desde su panel.</p>
+          </article>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>

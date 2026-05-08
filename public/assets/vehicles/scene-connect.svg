@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900">
+  <defs>
+    <linearGradient id="connectSky" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#7c9abc"/>
+      <stop offset="100%" stop-color="#f0c9a5"/>
+    </linearGradient>
+    <linearGradient id="overlay" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#20364b" stop-opacity=".72"/>
+      <stop offset="100%" stop-color="#101e2d" stop-opacity=".18"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="900" fill="url(#connectSky)"/>
+  <rect y="560" width="1200" height="340" fill="#5f5045"/>
+  <path d="M0 560c169-74 319-108 563-86 220 20 395-10 637-120v546H0Z" fill="#665142"/>
+  <path d="M0 596c234-72 422-80 632-52 203 28 354-5 568-115v471H0Z" fill="#8a6e59"/>
+  <path d="M714 245 980 129l44 38-202 140-73 16z" fill="#1f3143"/>
+  <path d="M1000 154 1060 194l-39 36-57-41z" fill="#172736"/>
+  <path d="M830 321 972 534l-41 28-122-187z" fill="#22384c"/>
+  <path d="M879 528 809 709l130-26 89-94-58-82z" fill="#475866"/>
+  <rect x="531" y="392" width="285" height="144" rx="11" fill="#7f654e"/>
+  <rect x="659" y="306" width="92" height="98" rx="8" fill="#7f654e"/>
+  <path d="M669 320h71l42 61H673z" fill="#d5dde6"/>
+  <rect x="555" y="509" width="333" height="48" rx="22" fill="#202a34"/>
+  <circle cx="633" cy="593" r="64" fill="#171f28"/>
+  <circle cx="633" cy="593" r="25" fill="#8797a5"/>
+  <circle cx="781" cy="593" r="64" fill="#171f28"/>
+  <circle cx="781" cy="593" r="25" fill="#8797a5"/>
+  <g transform="translate(250 560)">
+    <circle cx="72" cy="101" r="48" fill="#151b21"/>
+    <circle cx="72" cy="101" r="24" fill="#c9d4de"/>
+    <circle cx="292" cy="101" r="48" fill="#151b21"/>
+    <circle cx="292" cy="101" r="24" fill="#c9d4de"/>
+    <path d="M112 100h66l47-43h63l31 18h39v14h-47l-22 33h-34l-13-33h-53l-31 33h-47z" fill="#1a1f26"/>
+    <path d="M160 97 226 60h57l33 18h-41l-39 21Z" fill="#223a4e"/>
+    <path d="M226 52h55l27 15h-48z" fill="#ff7a10"/>
+  </g>
+  <rect width="1200" height="900" fill="url(#overlay)"/>
+</svg>

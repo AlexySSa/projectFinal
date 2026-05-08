@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320">
+  <defs>
+    <linearGradient id="garage" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#626870"/>
+      <stop offset="100%" stop-color="#40464d"/>
+    </linearGradient>
+  </defs>
+  <rect width="480" height="320" fill="#d7dce1"/>
+  <rect x="0" y="0" width="480" height="210" fill="url(#garage)"/>
+  <g opacity=".14">
+    <rect x="48" y="34" width="86" height="148" rx="6" fill="#fff"/>
+    <rect x="158" y="34" width="86" height="148" rx="6" fill="#fff"/>
+    <rect x="268" y="34" width="86" height="148" rx="6" fill="#fff"/>
+    <rect x="378" y="34" width="54" height="148" rx="6" fill="#fff"/>
+  </g>
+  <rect y="210" width="480" height="110" fill="#a8b2bb"/>
+  <g transform="translate(72 130)">
+    <ellipse cx="160" cy="106" rx="134" ry="20" fill="#8a939b" opacity=".34"/>
+    <circle cx="58" cy="74" r="40" fill="#1e2329"/>
+    <circle cx="58" cy="74" r="23" fill="#cad4de"/>
+    <circle cx="254" cy="74" r="40" fill="#1e2329"/>
+    <circle cx="254" cy="74" r="23" fill="#cad4de"/>
+    <path d="M84 74h56l44-36h54l26 17h37v12h-41l-20 29H212l-13-29h-50l-26 29H89z" fill="#232931"/>
+    <path d="M130 72 184 39h50l26 16h-35l-32 22Z" fill="#36567d"/>
+    <path d="M190 33h42l23 12h-34z" fill="#ff7a10"/>
+    <path d="M148 47h22l8 22h-24z" fill="#56606d"/>
+    <rect x="157" y="25" width="10" height="16" rx="3" fill="#1e2329"/>
+    <rect x="247" y="40" width="10" height="26" rx="4" fill="#1e2329"/>
+  </g>
+</svg>
