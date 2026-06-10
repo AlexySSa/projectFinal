@@ -6,12 +6,15 @@ import VehicleCard from '../components/VehicleCard.jsx'
 import Icon from '../components/Icon.jsx'
 import { api } from '../api.js'
 import { useAuth } from '../context/AuthContext.jsx'
+import { useT } from '../i18n.js'
 import { useFavIds } from '../hooks/useFavIds.js'
+import { filtrarVehiculos } from '../filters.js'
 
 export default function Catalogo() {
   const [params] = useSearchParams()
   const navigate = useNavigate()
   const { isArrendador } = useAuth()
+  const { t } = useT()
   const favIds = useFavIds()
   const q = (params.get('q') || '').toLowerCase()
   const cat = params.get('cat') || ''
@@ -30,16 +33,7 @@ export default function Catalogo() {
       .finally(() => setLoading(false))
   }, [params, cat])
 
-  const resultados = useMemo(() => {
-    return all.filter((v) => {
-      if (q && !(`${v.titulo} ${v.marca} ${v.modelo}`.toLowerCase().includes(q))) return false
-      if (filters.marca && v.marca !== filters.marca) return false
-      if (filters.modelo && v.modelo !== filters.modelo) return false
-      if (filters.direccion && v.direccion !== filters.direccion) return false
-      if (filters.condicion && v.condicion !== filters.condicion) return false
-      return true
-    })
-  }, [all, q, filters])
+  const resultados = useMemo(() => filtrarVehiculos(all, filters, q), [all, q, filters])
 
   return (
     <>
@@ -48,15 +42,20 @@ export default function Catalogo() {
         <FilterSidebar filters={filters} setFilters={setFilters} />
 
         <section className="results-card">
-          <h2>Resultados</h2>
+          <h2>{t('catalog.results')}</h2>
           {loading ? (
-            <div className="empty-state">Cargando vehículos…</div>
+            <div className="empty-state">{t('common.loadingVehicles')}</div>
           ) : resultados.length === 0 ? (
-            <div className="empty-state">No se encontraron vehículos con esos filtros.</div>
+            <div className="empty-state">{t('catalog.noResults')}</div>
           ) : (
             <div className="cards-grid">
               {resultados.map((v) => (
-                <VehicleCard key={v.id} v={v} fav={favIds.includes(v.id)} />
+                <VehicleCard
+                  key={v.id}
+                  v={v}
+                  fav={favIds.includes(v.id)}
+                  onDelete={(id) => setAll((prev) => prev.filter((x) => x.id !== id))}
+                />
               ))}
             </div>
           )}
@@ -64,7 +63,7 @@ export default function Catalogo() {
       </div>
 
       {isArrendador && (
-        <button className="fab" title="Agregar vehículo" onClick={() => navigate('/nuevo-vehiculo')}>
+        <button className="fab" title={t('vehicle.addVehicle')} onClick={() => navigate('/nuevo-vehiculo')}>
           <Icon name="add" className="msi-lg" />
         </button>
       )}

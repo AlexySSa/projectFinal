@@ -3,6 +3,7 @@ import { api, setToken, getToken } from '../api.js'
 
 const AuthContext = createContext(null)
 const USER_KEY = 'bahn_user'
+const LANG_KEY = 'bahn_lang'
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(() => {
@@ -13,12 +14,20 @@ export function AuthProvider({ children }) {
       return null
     }
   })
-  const [lang, setLang] = useState('ES')
+  const [lang, setLang] = useState(() => {
+    const saved = localStorage.getItem(LANG_KEY)
+    return saved === 'EN' || saved === 'ES' ? saved : 'ES'
+  })
 
   useEffect(() => {
     if (user) localStorage.setItem(USER_KEY, JSON.stringify(user))
     else localStorage.removeItem(USER_KEY)
   }, [user])
+
+  useEffect(() => {
+    localStorage.setItem(LANG_KEY, lang)
+    document.documentElement.lang = lang.toLowerCase()
+  }, [lang])
 
   useEffect(() => {
     if (getToken() && !user) {

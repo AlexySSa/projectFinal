@@ -1,6 +1,8 @@
 import Icon from './Icon.jsx'
+import { useT } from '../i18n.js'
 
 export default function PayPalButtons({ onPay, disabled }) {
+  const { t } = useT()
   return (
     <div className="pp-buttons">
       <button className="pp-btn pp-btn-yellow" onClick={onPay} disabled={disabled}>
@@ -9,10 +11,10 @@ export default function PayPalButtons({ onPay, disabled }) {
         </span>
       </button>
       <button className="pp-btn pp-btn-black" onClick={onPay} disabled={disabled}>
-        Tarjeta de débito o crédito
+        {t('paypal.card')}
       </button>
       <div className="pp-secure">
-        <Icon name="lock" className="msi-sm" /> Pago seguro procesado por PayPal
+        <Icon name="lock" className="msi-sm" /> {t('paypal.secure')}
       </div>
     </div>
   )

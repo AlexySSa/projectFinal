@@ -2,18 +2,24 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar.jsx'
 import Icon from '../components/Icon.jsx'
+import Modal from '../components/Modal.jsx'
 import { api } from '../api.js'
 import { CATEGORY_ICON } from '../constants.js'
 import { useAuth } from '../context/AuthContext.jsx'
+import { useT } from '../i18n.js'
 
 export default function Detalle() {
   const { id } = useParams()
   const navigate = useNavigate()
-  const { isLogged } = useAuth()
+  const { isLogged, user } = useAuth()
+  const { t, tErr } = useT()
   const [v, setV] = useState(null)
   const [loading, setLoading] = useState(true)
   const [active, setActive] = useState(0)
   const [fav, setFav] = useState(false)
+  const [deleting, setDeleting] = useState(false)
+  const [confirmOpen, setConfirmOpen] = useState(false)
+  const [errorMsg, setErrorMsg] = useState('')
 
   useEffect(() => {
     api.getVehiculo(id).then(setV).catch(() => setV(null)).finally(() => setLoading(false))
@@ -38,11 +44,23 @@ export default function Detalle() {
     }
   }
 
+  const eliminar = async () => {
+    setDeleting(true)
+    try {
+      await api.deleteVehiculo(id)
+      navigate('/catalogo')
+    } catch (e) {
+      setConfirmOpen(false)
+      setDeleting(false)
+      setErrorMsg(tErr(e.message))
+    }
+  }
+
   if (loading) {
     return (
       <>
         <Navbar variant="app" />
-        <div className="empty-state">Cargando…</div>
+        <div className="empty-state">{t('common.loading')}</div>
       </>
     )
   }
@@ -51,7 +69,7 @@ export default function Detalle() {
     return (
       <>
         <Navbar variant="app" />
-        <div className="empty-state">Vehículo no encontrado.</div>
+        <div className="empty-state">{t('common.vehicleNotFound')}</div>
       </>
     )
   }
@@ -86,16 +104,16 @@ export default function Detalle() {
 
           <div className="detail-cols">
             <div className="spec-block">
-              <h3>Especificaciones:</h3>
-              <p>Marca: {v.marca}</p>
-              <p>Modelo: {v.modelo}</p>
-              <p>Año: {v.anio}</p>
-              <p>KM: {v.km}km</p>
-              <p>Condición visual: {v.condicion}</p>
-              <p>Color: {v.color}</p>
+              <h3>{t('detail.specs')}</h3>
+              <p>{t('common.brand')}: {v.marca}</p>
+              <p>{t('common.model')}: {v.modelo}</p>
+              <p>{t('detail.year')}: {v.anio}</p>
+              <p>{t('detail.km')}: {v.km}km</p>
+              <p>{t('detail.visualCondition')}: {v.condicion}</p>
+              <p>{t('detail.color')}: {v.color}</p>
             </div>
             <div className="spec-block">
-              <h3>Descripción:</h3>
+              <h3>{t('detail.description')}</h3>
               <p>{v.descripcion}</p>
             </div>
           </div>
@@ -104,31 +122,66 @@ export default function Detalle() {
         <aside>
           <div className="detail-side">
             <h1>{v.titulo}</h1>
-            <p><strong>Precio:</strong> ${v.tarifa}/día</p>
-            <p><strong>Dirección:</strong> {v.direccion}</p>
+            <p><strong>{t('detail.price')}</strong> ${v.tarifa}/{t('common.perDay')}</p>
+            <p><strong>{t('detail.address')}</strong> {v.direccion}</p>
             <button
               className={'btn btn-block btn-icon ' + (fav ? 'btn-fav-active' : 'btn-outline')}
               style={{ marginTop: 14 }}
               onClick={toggleFav}
             >
               <Icon name="favorite" className="msi-sm" fill={fav} />
-              {fav ? 'En tus deseados' : 'Agregar a deseados'}
+              {fav ? t('detail.inWishlist') : t('detail.addWishlist')}
             </button>
             <button
               className="btn btn-blue btn-block btn-icon"
               style={{ marginTop: 10 }}
               onClick={() => navigate('/reservar/' + id)}
             >
-              <Icon name="credit_card" className="msi-sm" /> Realizar reserva
+              <Icon name="credit_card" className="msi-sm" /> {t('detail.makeReservation')}
             </button>
+            {isLogged && user && v.owner === user.id && (
+              <button
+                className="btn btn-red btn-block btn-icon"
+                style={{ marginTop: 10 }}
+                onClick={() => setConfirmOpen(true)}
+                disabled={deleting}
+              >
+                <Icon name="delete" className="msi-sm" /> {deleting ? t('detail.deleting') : t('detail.delete')}
+              </button>
+            )}
           </div>
 
           <div style={{ marginTop: 24 }}>
-            <h3>Dirección completa:</h3>
+            <h3>{t('detail.fullAddress')}</h3>
             <p style={{ fontWeight: 700, lineHeight: 1.5 }}>{v.direccionCompleta || v.direccion}</p>
           </div>
         </aside>
       </div>
+
+      {confirmOpen && (
+        <Modal
+          variant="danger"
+          icon="delete"
+          title={t('detail.delete')}
+          message={t('detail.deleteConfirm')}
+          confirmLabel={t('common.delete')}
+          cancelLabel={t('common.cancel')}
+          onConfirm={eliminar}
+          onClose={() => setConfirmOpen(false)}
+          loading={deleting}
+        />
+      )}
+
+      {errorMsg && (
+        <Modal
+          variant="danger"
+          icon="error"
+          title={t('common.errorTitle')}
+          message={errorMsg}
+          confirmLabel={t('common.accept')}
+          onClose={() => setErrorMsg('')}
+        />
+      )}
     </>
   )
 }

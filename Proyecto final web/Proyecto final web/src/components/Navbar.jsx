@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
+import { useT } from '../i18n.js'
 import UserMenu from './UserMenu.jsx'
 import Icon from './Icon.jsx'
 
 export default function Navbar({ variant = 'app', title, search, onSearch, showFavorites = false }) {
   const { isLogged, lang, setLang } = useAuth()
+  const { t } = useT()
   const navigate = useNavigate()
   const [menuOpen, setMenuOpen] = useState(false)
   const [q, setQ] = useState(search || '')
@@ -36,20 +38,20 @@ export default function Navbar({ variant = 'app', title, search, onSearch, showF
         <span className="search-lead"><Icon name="search" className="msi-sm" /></span>
         <input
           className="search-input"
-          placeholder="Buscar por vehículo, marca, modelo"
+          placeholder={t('search.placeholderVehicle')}
           value={q}
           onChange={(e) => setQ(e.target.value)}
         />
         <span className="search-divider" />
         <span className="search-lead"><Icon name="location_on" className="msi-sm" /></span>
-        <input className="search-input" placeholder="Ubicación o ciudad" />
+        <input className="search-input" placeholder={t('search.placeholderLocation')} />
         <button className="search-btn" type="submit"><Icon name="search" className="msi-sm" /></button>
       </form>
 
       <div className="nav-spacer" />
 
       {showFavorites && (
-        <Link to="/favoritos" className="icon-btn" title="Favoritos"><Icon name="favorite" /></Link>
+        <Link to="/favoritos" className="icon-btn" title={t('favorites.title')}><Icon name="favorite" /></Link>
       )}
 
       <div className="lang-toggle">
@@ -63,10 +65,11 @@ export default function Navbar({ variant = 'app', title, search, onSearch, showF
 }
 
 function UserArea({ isLogged, navigate, menuOpen, setMenuOpen, closeMenu }) {
+  const { t } = useT()
   if (!isLogged) {
     return (
       <button className="btn-login" onClick={() => navigate('/auth')}>
-        Iniciar sesión/Registrarse
+        {t('auth.loginRegister')}
       </button>
     )
   }
@@ -79,7 +82,7 @@ function UserArea({ isLogged, navigate, menuOpen, setMenuOpen, closeMenu }) {
           setMenuOpen((o) => !o)
         }}
       >
-        Usuario <Icon name="account_circle" className="msi-lg" />
+        {t('common.user')} <Icon name="account_circle" className="msi-lg" />
       </button>
       <button className="hamburger" onClick={(e) => { e.stopPropagation(); setMenuOpen((o) => !o) }}>
         <Icon name="menu" />

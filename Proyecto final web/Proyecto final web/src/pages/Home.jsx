@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
+import { useT } from '../i18n.js'
 import { api } from '../api.js'
 import { CATEGORY_ICON, CATEGORY_IMAGE } from '../constants.js'
 import { useFavIds } from '../hooks/useFavIds.js'
@@ -13,6 +14,7 @@ const CATEGORIES = ['Autos', 'Motocicletas', 'Maquinaria Pesada', 'Agrícola']
 export default function Home() {
   const navigate = useNavigate()
   const { lang, setLang, isLogged } = useAuth()
+  const { t } = useT()
   const [q, setQ] = useState('')
   const [destacados, setDestacados] = useState([])
   const favIds = useFavIds()
@@ -37,26 +39,26 @@ export default function Home() {
               <button className={lang === 'EN' ? 'active' : ''} onClick={() => setLang('EN')}>EN</button>
             </div>
             <button className="btn-login" onClick={() => navigate(isLogged ? '/catalogo' : '/auth')}>
-              {isLogged ? 'Ir al catálogo' : 'Iniciar sesión/Registrarse'}
+              {isLogged ? t('home.goCatalog') : t('auth.loginRegister')}
             </button>
           </div>
         </div>
 
-        <h1>Bahn | Renta de vehiculos</h1>
-        <p className="subtitle">¡Autos, motocicletas y maquinaria en un solo lugar!</p>
+        <h1>{t('home.title')}</h1>
+        <p className="subtitle">{t('home.subtitle')}</p>
 
         <form className="home-search" onSubmit={buscar}>
           <div className="si">
             <Icon name="search" />
             <input
-              placeholder="¿Qué vehículo o maquinaria necesitas?"
+              placeholder={t('home.searchPlaceholder')}
               value={q}
               onChange={(e) => setQ(e.target.value)}
             />
           </div>
           <div className="si">
             <Icon name="location_on" />
-            <input placeholder="Ubicación o ciudad" />
+            <input placeholder={t('search.placeholderLocation')} />
           </div>
           <button className="home-search-btn" type="submit"><Icon name="search" /></button>
         </form>
@@ -69,21 +71,26 @@ export default function Home() {
               <div className="cat-thumb">
                 <Img src={CATEGORY_IMAGE[c]} alt={c} icon={CATEGORY_ICON[c]} iconClass="msi-xl" />
               </div>
-              <h3>{c}</h3>
+              <h3>{t('cat.' + c)}</h3>
             </div>
           ))}
         </div>
 
         <div className="section-head">
-          <h2>Publicaciones destacadas</h2>
+          <h2>{t('home.featured')}</h2>
           <span className="link-orange" style={{ cursor: 'pointer' }} onClick={() => navigate('/catalogo')}>
-            Explorar catálogo
+            {t('home.exploreCatalog')}
           </span>
         </div>
 
         <div className="cards-grid">
           {destacados.map((v) => (
-            <VehicleCard key={v.id} v={v} fav={favIds.includes(v.id)} />
+            <VehicleCard
+              key={v.id}
+              v={v}
+              fav={favIds.includes(v.id)}
+              onDelete={(id) => setDestacados((prev) => prev.filter((x) => x.id !== id))}
+            />
           ))}
         </div>
       </main>

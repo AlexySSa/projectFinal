@@ -9,6 +9,7 @@ import PayPalButtons from '../components/PayPalButtons.jsx'
 import SuccessModal from '../components/SuccessModal.jsx'
 import { api } from '../api.js'
 import { CATEGORY_ICON } from '../constants.js'
+import { useT } from '../i18n.js'
 
 const DAY = 86400000
 const toInput = (d) => new Date(d).toISOString().slice(0, 10)
@@ -22,6 +23,7 @@ const fmt = (d) => {
 export default function Reserva() {
   const { id } = useParams()
   const navigate = useNavigate()
+  const { t, tErr } = useT()
   const [v, setV] = useState(null)
   const [loading, setLoading] = useState(true)
 
@@ -36,10 +38,19 @@ export default function Reserva() {
     api.getVehiculo(id).then(setV).catch(() => setV(null)).finally(() => setLoading(false))
   }, [id])
 
-  const cargarOcupadas = () =>
-    api.getOcupadas(id)
-      .then((r) => setOcupadas(r.map((x) => ({ inicio: x.inicio.slice(0, 10), fin: x.fin.slice(0, 10) }))))
+  const cargarOcupadas = () => {
+    const hoy = toInput(Date.now())
+    return api.getOcupadas(id)
+      .then((r) =>
+        setOcupadas(
+          r
+            .map((x) => ({ inicio: x.inicio.slice(0, 10), fin: x.fin.slice(0, 10) }))
+            // Descarta reservas que ya terminaron (fecha de fin anterior a hoy).
+            .filter((x) => x.fin >= hoy)
+        )
+      )
       .catch(() => setOcupadas([]))
+  }
 
   useEffect(() => {
     cargarOcupadas()
@@ -64,8 +75,8 @@ export default function Reserva() {
   if (loading) {
     return (
       <>
-        <Navbar variant="titled" title="Reservar vehículo" />
-        <div className="empty-state">Cargando…</div>
+        <Navbar variant="titled" title={t('reserva.title')} />
+        <div className="empty-state">{t('common.loading')}</div>
       </>
     )
   }
@@ -73,8 +84,8 @@ export default function Reserva() {
   if (!v) {
     return (
       <>
-        <Navbar variant="titled" title="Reservar vehículo" />
-        <div className="empty-state">Vehículo no encontrado.</div>
+        <Navbar variant="titled" title={t('reserva.title')} />
+        <div className="empty-state">{t('common.vehicleNotFound')}</div>
       </>
     )
   }
@@ -108,7 +119,7 @@ export default function Reserva() {
       const order = await api.paypalCreateOrder({ total, reserva: datosReserva() })
       await finalizar(order.id)
     } catch (e) {
-      setError(e.message)
+      setError(tErr(e.message))
       cargarOcupadas()
     }
   }
@@ -117,10 +128,10 @@ export default function Reserva() {
 
   return (
     <>
-      <Navbar variant="titled" title="Reservar vehículo" />
+      <Navbar variant="titled" title={t('reserva.title')} />
       <div className="back-bar">
         <button className="back-link" onClick={() => navigate(-1)}>
-          <Icon name="arrow_back" className="msi-sm" /> Regresar
+          <Icon name="arrow_back" className="msi-sm" /> {t('common.back')}
         </button>
       </div>
 
@@ -133,41 +144,41 @@ export default function Reserva() {
               </div>
               <div>
                 <h3>{v.titulo}</h3>
-                <p className="res-meta">Marca: {v.marca} · Modelo: {v.modelo}</p>
+                <p className="res-meta">{t('common.brand')}: {v.marca} · {t('common.model')}: {v.modelo}</p>
                 <p className="res-meta"><Icon name="location_on" className="msi-sm" /> {v.direccion}</p>
-                <p className="res-price">${tarifa}/día</p>
+                <p className="res-price">${tarifa}/{t('common.perDay')}</p>
               </div>
             </div>
 
             <div className="reserva-card">
-              <h3>Detalles de la reserva</h3>
+              <h3>{t('reserva.details')}</h3>
               <div className="two-col">
                 <div>
-                  <label className="field-label">Fecha de inicio</label>
+                  <label className="field-label">{t('reserva.startDate')}</label>
                   <input type="date" className="field" value={inicio} min={toInput(Date.now())} onChange={(e) => setInicio(e.target.value)} />
                 </div>
                 <div>
-                  <label className="field-label">Fecha de fin</label>
+                  <label className="field-label">{t('reserva.endDate')}</label>
                   <input type="date" className="field" value={fin} min={inicio} onChange={(e) => setFin(e.target.value)} />
                 </div>
               </div>
 
-              <label className="field-label">Nombre de quien reserva</label>
-              <input className="field" placeholder="Nombre completo" value={nombre} onChange={(e) => setNombre(e.target.value)} />
+              <label className="field-label">{t('reserva.bookerName')}</label>
+              <input className="field" placeholder={t('auth.fullName')} value={nombre} onChange={(e) => setNombre(e.target.value)} />
 
-              <label className="field-label">Lugar de entrega</label>
+              <label className="field-label">{t('reserva.deliveryPlace')}</label>
               <input className="field" defaultValue={v.direccionCompleta || v.direccion} />
 
               {!fechasValidas && (
-                <p className="res-warning"><Icon name="error" className="msi-sm" /> La fecha de fin debe ser posterior a la de inicio.</p>
+                <p className="res-warning"><Icon name="error" className="msi-sm" /> {t('reserva.dateError')}</p>
               )}
               {fechasValidas && ocupado && (
-                <p className="res-warning"><Icon name="event_busy" className="msi-sm" /> El rango elegido se cruza con una reserva existente. Elige otras fechas.</p>
+                <p className="res-warning"><Icon name="event_busy" className="msi-sm" /> {t('reserva.overlapError')}</p>
               )}
 
               {ocupadas.length > 0 && (
                 <div className="ocupadas-box">
-                  <span className="ocupadas-title"><Icon name="event_busy" className="msi-sm" /> Fechas no disponibles</span>
+                  <span className="ocupadas-title"><Icon name="event_busy" className="msi-sm" /> {t('reserva.unavailableDates')}</span>
                   <ul>
                     {ocupadas.map((r, i) => (
                       <li key={i}>{fmt(r.inicio)} → {fmt(r.fin)}</li>
@@ -179,29 +190,29 @@ export default function Reserva() {
           </div>
 
           <aside className="reserva-summary">
-            <h3>Resumen de pago</h3>
+            <h3>{t('reserva.paymentSummary')}</h3>
 
             <div className="summary-row">
-              <span>${tarifa} × {dias} {dias === 1 ? 'día' : 'días'}</span>
+              <span>${tarifa} × {dias} {dias === 1 ? t('common.day') : t('common.days')}</span>
               <span>${subtotal.toFixed(2)}</span>
             </div>
             <div className="summary-row">
-              <span>Tarifa de servicio (10%)</span>
+              <span>{t('reserva.serviceFee')}</span>
               <span>${servicio.toFixed(2)}</span>
             </div>
             <div className="summary-divider" />
             <div className="summary-row summary-total">
-              <span>Total</span>
+              <span>{t('reserva.total')}</span>
               <span>${total.toFixed(2)}</span>
             </div>
 
-            <div className="summary-pay-label">Método de pago</div>
+            <div className="summary-pay-label">{t('reserva.paymentMethod')}</div>
 
             {error && <div className="auth-error" style={{ marginBottom: 10 }}>{error}</div>}
 
             {!disponible ? (
               <button className="btn btn-block" style={{ background: '#c2cad8', color: '#fff' }} disabled>
-                {ocupado ? 'Fechas no disponibles' : 'Selecciona fechas válidas'}
+                {ocupado ? t('reserva.datesUnavailable') : t('reserva.selectValidDates')}
               </button>
             ) : PAYPAL_CLIENT_ID ? (
               <PayPalScriptProvider options={{ clientId: PAYPAL_CLIENT_ID, currency: 'USD' }}>
@@ -212,13 +223,13 @@ export default function Reserva() {
                     api.paypalCreateOrder({ total, reserva: datosReserva() })
                       .then((o) => o.id)
                       .catch((e) => {
-                        setError(e.message)
+                        setError(tErr(e.message))
                         cargarOcupadas()
                         throw e
                       })
                   }
                   onApprove={(data) => finalizar(data.orderID)}
-                  onError={() => setError('Hubo un problema con el pago de PayPal.')}
+                  onError={() => setError(t('reserva.paypalError'))}
                 />
               </PayPalScriptProvider>
             ) : (
@@ -230,7 +241,7 @@ export default function Reserva() {
 
       {success && (
         <SuccessModal
-          message="¡Reserva y pago realizados con éxito!"
+          message={t('reserva.success')}
           onClose={() => {
             setSuccess(false)
             navigate('/catalogo')

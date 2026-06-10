@@ -51,6 +51,7 @@ export const api = {
   getVehiculo: (id) => req('/vehiculos/' + id),
   getMisVehiculos: () => req('/vehiculos/mios'),
   addVehiculo: (data) => req('/vehiculos', { method: 'POST', body: data }),
+  deleteVehiculo: (id) => req('/vehiculos/' + id, { method: 'DELETE' }),
 
   // Favoritos
   getFavoritos: () => req('/favoritos'),

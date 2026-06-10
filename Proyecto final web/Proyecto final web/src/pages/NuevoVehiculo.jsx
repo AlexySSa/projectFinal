@@ -4,11 +4,13 @@ import Navbar from '../components/Navbar.jsx'
 import SuccessModal from '../components/SuccessModal.jsx'
 import Icon from '../components/Icon.jsx'
 import { api } from '../api.js'
+import { useT } from '../i18n.js'
 
 const CATEGORIES = ['Motocicletas', 'Autos', 'Maquinaria Pesada', 'Agrícola']
 
 export default function NuevoVehiculo() {
   const navigate = useNavigate()
+  const { t, tErr } = useT()
   const [step, setStep] = useState(1)
   const [success, setSuccess] = useState(false)
   const [saving, setSaving] = useState(false)
@@ -60,7 +62,7 @@ export default function NuevoVehiculo() {
       })
       setSuccess(true)
     } catch (e) {
-      setError(e.message)
+      setError(tErr(e.message))
     } finally {
       setSaving(false)
     }
@@ -68,65 +70,65 @@ export default function NuevoVehiculo() {
 
   return (
     <>
-      <Navbar variant="titled" title="Nuevo vehículo" />
+      <Navbar variant="titled" title={t('newVehicle.title')} />
       <div className="back-bar">
         <button className="back-link" onClick={() => (step === 2 ? setStep(1) : navigate(-1))}>
-          <Icon name="arrow_back" className="msi-sm" /> Regresar
+          <Icon name="arrow_back" className="msi-sm" /> {t('common.back')}
         </button>
       </div>
 
       {step === 1 ? (
         <div className="form-panel">
-          <h2 style={{ fontSize: 22 }}>Datos del vehículo</h2>
+          <h2 style={{ fontSize: 22 }}>{t('newVehicle.vehicleData')}</h2>
           <p style={{ color: '#8a93a3', fontWeight: 600, marginTop: -8 }}>
-            No todos los datos serán compartidos al público
+            {t('newVehicle.notAllShared')}
           </p>
 
-          <div className="section-title">Datos compartidos</div>
+          <div className="section-title">{t('newVehicle.sharedData')}</div>
           <div className="two-col">
             <div>
-              <label className="field-label">Categoría</label>
+              <label className="field-label">{t('newVehicle.category')}</label>
               <select className="field" value={form.categoria} onChange={(e) => set('categoria', e.target.value)}>
-                {CATEGORIES.map((c) => <option key={c}>{c}</option>)}
+                {CATEGORIES.map((c) => <option key={c} value={c}>{t('cat.' + c)}</option>)}
               </select>
 
-              <label className="field-label">Título de publicación</label>
+              <label className="field-label">{t('newVehicle.postTitle')}</label>
               <input className="field" value={form.titulo} onChange={(e) => set('titulo', e.target.value)} placeholder="Yamaha-R7 2025" />
 
-              <label className="field-label">Tarifa diaria (USD)</label>
+              <label className="field-label">{t('newVehicle.dailyRate')}</label>
               <input className="field" value={form.tarifa} onChange={(e) => set('tarifa', e.target.value)} placeholder="$25" />
 
-              <label className="field-label">Descripción</label>
-              <textarea className="field" value={form.descripcion} onChange={(e) => set('descripcion', e.target.value)} placeholder="Motocicleta 700cc, excelente para tardes de rodadas y aventuras" />
+              <label className="field-label">{t('newVehicle.description')}</label>
+              <textarea className="field" value={form.descripcion} onChange={(e) => set('descripcion', e.target.value)} placeholder={t('newVehicle.descPlaceholder')} />
 
-              <label className="field-label">Dirección</label>
+              <label className="field-label">{t('newVehicle.address')}</label>
               <input className="field" value={form.direccion} onChange={(e) => set('direccion', e.target.value)} placeholder="San Miguel centro, San Miguel" />
             </div>
 
             <div>
-              <label className="field-label">Marca</label>
+              <label className="field-label">{t('newVehicle.brand')}</label>
               <input className="field" value={form.marca} onChange={(e) => set('marca', e.target.value)} placeholder="Yamaha" />
 
-              <label className="field-label">Modelo</label>
+              <label className="field-label">{t('newVehicle.model')}</label>
               <input className="field" value={form.modelo} onChange={(e) => set('modelo', e.target.value)} placeholder="R7 2025" />
 
-              <div className="section-title" style={{ marginTop: 28 }}>Datos no compartidos</div>
+              <div className="section-title" style={{ marginTop: 28 }}>{t('newVehicle.notSharedData')}</div>
 
-              <label className="field-label">Número de placa</label>
+              <label className="field-label">{t('newVehicle.plateNumber')}</label>
               <input className="field" value={form.placa} onChange={(e) => set('placa', e.target.value)} placeholder="P 859 623" />
 
-              <label className="field-label">Nombre del titular</label>
-              <input className="field" value={form.titular} onChange={(e) => set('titular', e.target.value)} placeholder="Nombre completo del titular" />
+              <label className="field-label">{t('newVehicle.holderName')}</label>
+              <input className="field" value={form.titular} onChange={(e) => set('titular', e.target.value)} placeholder={t('newVehicle.holderPlaceholder')} />
             </div>
           </div>
 
           <button className="btn btn-orange btn-lg btn-icon" style={{ marginTop: 26 }} onClick={() => setStep(2)}>
-            Siguiente <Icon name="arrow_forward" className="msi-sm" />
+            {t('common.next')} <Icon name="arrow_forward" className="msi-sm" />
           </button>
         </div>
       ) : (
         <div className="form-panel">
-          <h2>Crear publicación</h2>
+          <h2>{t('newVehicle.createPost')}</h2>
           <div className="publish-layout">
             <div
               className="dropzone"
@@ -145,8 +147,8 @@ export default function NuevoVehiculo() {
               {fotos.length === 0 ? (
                 <>
                   <Icon name="cloud_upload" className="cloud" />
-                  <div>Arrastra tus fotos aquí</div>
-                  <div className="hint">O haz click para explorar tus archivos</div>
+                  <div>{t('newVehicle.dragPhotos')}</div>
+                  <div className="hint">{t('newVehicle.clickToBrowse')}</div>
                 </>
               ) : (
                 <div className="preview-grid">
@@ -156,27 +158,27 @@ export default function NuevoVehiculo() {
             </div>
 
             <div className="publish-form">
-              <label className="field-label">Título de publicación</label>
+              <label className="field-label">{t('newVehicle.postTitle')}</label>
               <input className="field" value={form.titulo} onChange={(e) => set('titulo', e.target.value)} placeholder="Yamaha-R7 2025" />
 
-              <label className="field-label">Categoría</label>
+              <label className="field-label">{t('newVehicle.category')}</label>
               <select className="field" value={form.categoria} onChange={(e) => set('categoria', e.target.value)}>
-                {CATEGORIES.map((c) => <option key={c}>{c}</option>)}
+                {CATEGORIES.map((c) => <option key={c} value={c}>{t('cat.' + c)}</option>)}
               </select>
 
-              <label className="field-label">Tarifa diaria (USD)</label>
+              <label className="field-label">{t('newVehicle.dailyRate')}</label>
               <input className="field" value={form.tarifa} onChange={(e) => set('tarifa', e.target.value)} placeholder="$25" />
 
-              <label className="field-label">Descripción</label>
+              <label className="field-label">{t('newVehicle.description')}</label>
               <textarea className="field" value={form.descripcion} onChange={(e) => set('descripcion', e.target.value)} />
 
-              <label className="field-label">Dirección</label>
+              <label className="field-label">{t('newVehicle.address')}</label>
               <input className="field" value={form.direccion} onChange={(e) => set('direccion', e.target.value)} />
 
               {error && <div className="auth-error" style={{ marginTop: 12 }}>{error}</div>}
 
               <button className="btn btn-green btn-block" style={{ marginTop: 18 }} onClick={publicar} disabled={saving}>
-                {saving ? 'Publicando…' : 'Crear publicación'}
+                {saving ? t('newVehicle.publishing') : t('newVehicle.createPost')}
               </button>
             </div>
           </div>
@@ -185,7 +187,7 @@ export default function NuevoVehiculo() {
 
       {success && (
         <SuccessModal
-          message="Publicación creada con éxito!"
+          message={t('newVehicle.success')}
           onClose={() => {
             setSuccess(false)
             navigate('/mis-vehiculos')
