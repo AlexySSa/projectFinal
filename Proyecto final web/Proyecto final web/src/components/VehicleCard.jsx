@@ -32,7 +32,6 @@ export default function VehicleCard({ v, fav = false, onToggle, onDelete }) {
       setIsFav(favorito)
       onToggle?.(v.id, favorito)
     } catch {
-      /* ignora errores de red en el toggle */
     }
   }
 

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import { useT } from '../i18n.js'
 import PasswordField from '../components/PasswordField.jsx'
+import SuccessModal from '../components/SuccessModal.jsx'
 
 export default function Auth() {
   const { login, register } = useAuth()
@@ -11,11 +12,10 @@ export default function Auth() {
   const [tab, setTab] = useState('login')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [registered, setRegistered] = useState(false)
 
-  // login
   const [email, setEmail] = useState('')
   const [pass, setPass] = useState('')
-  // register
   const [nombre, setNombre] = useState('')
   const [remail, setREmail] = useState('')
   const [rpass, setRPass] = useState('')
@@ -42,7 +42,7 @@ export default function Auth() {
     setLoading(true)
     try {
       await register({ nombre, email: remail, password: rpass, telefono: tel, rol })
-      navigate('/catalogo')
+      setRegistered(true)
     } catch (err) {
       setError(tErr(err.message))
     } finally {
@@ -109,6 +109,16 @@ export default function Auth() {
           )}
         </div>
       </div>
+
+      {registered && (
+        <SuccessModal
+          message={t('auth.registerSuccess')}
+          onClose={() => {
+            setRegistered(false)
+            navigate('/catalogo')
+          }}
+        />
+      )}
     </div>
   )
 }

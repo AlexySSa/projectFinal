@@ -2,7 +2,6 @@ import { useState } from 'react'
 import Icon from './Icon.jsx'
 import { useT } from '../i18n.js'
 
-// Campo de contraseña con botón de "ojito" para mostrar/ocultar el texto.
 export default function PasswordField({ value, onChange, placeholder }) {
   const { t } = useT()
   const [show, setShow] = useState(false)

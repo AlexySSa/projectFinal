@@ -1,9 +1,7 @@
 import { useAuth } from './context/AuthContext.jsx'
 
-// Diccionario de traducciones. Clave -> { ES, EN }
 export const translations = {
   ES: {
-    // Común
     'common.user': 'Usuario',
     'common.loading': 'Cargando…',
     'common.loadingVehicles': 'Cargando vehículos…',
@@ -20,7 +18,6 @@ export const translations = {
     'common.days': 'días',
     'common.vehicleNotFound': 'Vehículo no encontrado.',
 
-    // Auth / login-registro
     'auth.loginRegister': 'Iniciar sesión/Registrarse',
     'auth.tagline': 'Conecta con maquinaria y vehículos',
     'auth.login': 'Iniciar sesión',
@@ -36,15 +33,12 @@ export const translations = {
     'auth.showPassword': 'Mostrar contraseña',
     'auth.hidePassword': 'Ocultar contraseña',
 
-    // Roles
     'role.arrendador': 'Arrendador',
     'role.cliente': 'Cliente',
 
-    // Buscador
     'search.placeholderVehicle': 'Buscar por vehículo, marca, modelo',
     'search.placeholderLocation': 'Ubicación o ciudad',
 
-    // Home
     'home.goCatalog': 'Ir al catálogo',
     'home.title': 'Bahn | Renta de vehiculos',
     'home.subtitle': '¡Autos, motocicletas y maquinaria en un solo lugar!',
@@ -52,17 +46,14 @@ export const translations = {
     'home.featured': 'Publicaciones destacadas',
     'home.exploreCatalog': 'Explorar catálogo',
 
-    // Categorías (etiqueta visible; el valor interno queda en español)
     'cat.Autos': 'Autos',
     'cat.Motocicletas': 'Motocicletas',
     'cat.Maquinaria Pesada': 'Maquinaria Pesada',
     'cat.Agrícola': 'Agrícola',
 
-    // Catálogo
     'catalog.results': 'Resultados',
     'catalog.noResults': 'No se encontraron vehículos con esos filtros.',
 
-    // Filtros
     'filter.title': 'Filtro',
     'filter.categories': 'Categorías',
     'filter.brand': 'Marca',
@@ -73,21 +64,17 @@ export const translations = {
     'filter.condition': 'Condición',
     'filter.any': 'Cualquiera',
 
-    // Pesos / categorías de peso
     'weight.Liviano': 'Liviano',
     'weight.Mediano': 'Mediano',
     'weight.Pesado': 'Pesado',
 
-    // Condiciones
     'cond.Excelente': 'Excelente',
     'cond.Buena': 'Buena',
     'cond.Regular': 'Regular',
 
-    // Tarjeta de vehículo
     'fav.add': 'Agregar a favoritos',
     'fav.remove': 'Quitar de favoritos',
 
-    // Detalle
     'detail.specs': 'Especificaciones:',
     'detail.year': 'Año',
     'detail.km': 'KM',
@@ -104,7 +91,6 @@ export const translations = {
     'detail.deleting': 'Eliminando…',
     'detail.deleteConfirm': '¿Seguro que deseas eliminar esta publicación? Se borrará del catálogo y no se puede deshacer.',
 
-    // Reserva
     'reserva.title': 'Reservar vehículo',
     'reserva.details': 'Detalles de la reserva',
     'reserva.startDate': 'Fecha de inicio',
@@ -123,11 +109,9 @@ export const translations = {
     'reserva.paypalError': 'Hubo un problema con el pago de PayPal.',
     'reserva.success': '¡Reserva y pago realizados con éxito!',
 
-    // Mis vehículos
     'myVehicles.title': 'Mis vehiculos',
     'myVehicles.empty': 'Aún no has publicado vehículos. Usa el botón + para agregar uno.',
 
-    // Nuevo vehículo
     'vehicle.addVehicle': 'Agregar vehículo',
     'newVehicle.title': 'Nuevo vehículo',
     'newVehicle.vehicleData': 'Datos del vehículo',
@@ -151,22 +135,38 @@ export const translations = {
     'newVehicle.publishing': 'Publicando…',
     'newVehicle.success': 'Publicación creada con éxito!',
 
-    // Favoritos
     'favorites.title': 'Favoritos',
     'favorites.empty': 'Aún no tienes vehículos en favoritos.',
 
-    // Menú de usuario
     'menu.addVehicle': 'Agregar Vehículo',
     'menu.myVehicles': 'Mis vehículos',
+    'menu.invoices': 'Mis facturas',
     'menu.logout': 'Cerrar Sesión',
 
-    // PayPal
+    'auth.registerSuccess': '¡Cuenta creada con éxito! Te enviamos un correo de bienvenida.',
+
+    'invoices.title': 'Mis facturas',
+    'invoices.empty': 'Aún no tienes facturas. Se generan automáticamente al pagar una reserva.',
+    'invoices.number': 'Factura',
+    'invoices.date': 'Fecha',
+    'invoices.total': 'Total',
+    'invoices.method': 'Método',
+    'invoices.status': 'Estado',
+    'invoices.download': 'Descargar PDF',
+    'invoices.downloadError': 'No se pudo descargar la factura.',
+    'invoices.status.paid': 'Pagada',
+    'invoices.status.pending': 'Pendiente',
+    'invoices.status.failed': 'Fallida',
+    'invoices.status.refunded': 'Reembolsada',
+
+    'reserva.invoiceNumber': 'Factura',
+    'reserva.downloadInvoice': 'Descargar factura (PDF)',
+
     'paypal.card': 'Tarjeta de débito o crédito',
     'paypal.secure': 'Pago seguro procesado por PayPal',
   },
 
   EN: {
-    // Common
     'common.user': 'User',
     'common.loading': 'Loading…',
     'common.loadingVehicles': 'Loading vehicles…',
@@ -183,7 +183,6 @@ export const translations = {
     'common.days': 'days',
     'common.vehicleNotFound': 'Vehicle not found.',
 
-    // Auth
     'auth.loginRegister': 'Log in/Sign up',
     'auth.tagline': 'Connect with machinery and vehicles',
     'auth.login': 'Log in',
@@ -199,15 +198,12 @@ export const translations = {
     'auth.showPassword': 'Show password',
     'auth.hidePassword': 'Hide password',
 
-    // Roles
     'role.arrendador': 'Owner',
     'role.cliente': 'Customer',
 
-    // Search
     'search.placeholderVehicle': 'Search by vehicle, brand, model',
     'search.placeholderLocation': 'Location or city',
 
-    // Home
     'home.goCatalog': 'Go to catalog',
     'home.title': 'Bahn | Vehicle rental',
     'home.subtitle': 'Cars, motorcycles and machinery all in one place!',
@@ -215,17 +211,14 @@ export const translations = {
     'home.featured': 'Featured listings',
     'home.exploreCatalog': 'Explore catalog',
 
-    // Categories
     'cat.Autos': 'Cars',
     'cat.Motocicletas': 'Motorcycles',
     'cat.Maquinaria Pesada': 'Heavy Machinery',
     'cat.Agrícola': 'Agricultural',
 
-    // Catalog
     'catalog.results': 'Results',
     'catalog.noResults': 'No vehicles found with those filters.',
 
-    // Filters
     'filter.title': 'Filter',
     'filter.categories': 'Categories',
     'filter.brand': 'Brand',
@@ -236,21 +229,17 @@ export const translations = {
     'filter.condition': 'Condition',
     'filter.any': 'Any',
 
-    // Weights
     'weight.Liviano': 'Light',
     'weight.Mediano': 'Medium',
     'weight.Pesado': 'Heavy',
 
-    // Conditions
     'cond.Excelente': 'Excellent',
     'cond.Buena': 'Good',
     'cond.Regular': 'Fair',
 
-    // Vehicle card
     'fav.add': 'Add to favorites',
     'fav.remove': 'Remove from favorites',
 
-    // Detail
     'detail.specs': 'Specifications:',
     'detail.year': 'Year',
     'detail.km': 'KM',
@@ -267,7 +256,6 @@ export const translations = {
     'detail.deleting': 'Deleting…',
     'detail.deleteConfirm': 'Are you sure you want to delete this listing? It will be removed from the catalog and cannot be undone.',
 
-    // Reservation
     'reserva.title': 'Book vehicle',
     'reserva.details': 'Reservation details',
     'reserva.startDate': 'Start date',
@@ -286,11 +274,9 @@ export const translations = {
     'reserva.paypalError': 'There was a problem with the PayPal payment.',
     'reserva.success': 'Reservation and payment completed successfully!',
 
-    // My vehicles
     'myVehicles.title': 'My vehicles',
     'myVehicles.empty': 'You have not posted any vehicles yet. Use the + button to add one.',
 
-    // New vehicle
     'vehicle.addVehicle': 'Add vehicle',
     'newVehicle.title': 'New vehicle',
     'newVehicle.vehicleData': 'Vehicle data',
@@ -314,23 +300,38 @@ export const translations = {
     'newVehicle.publishing': 'Publishing…',
     'newVehicle.success': 'Listing created successfully!',
 
-    // Favorites
     'favorites.title': 'Favorites',
     'favorites.empty': 'You have no favorite vehicles yet.',
 
-    // User menu
     'menu.addVehicle': 'Add Vehicle',
     'menu.myVehicles': 'My vehicles',
+    'menu.invoices': 'My invoices',
     'menu.logout': 'Log out',
 
-    // PayPal
+    'auth.registerSuccess': 'Account created successfully! We sent you a welcome email.',
+
+    'invoices.title': 'My invoices',
+    'invoices.empty': 'You have no invoices yet. They are generated automatically when you pay for a booking.',
+    'invoices.number': 'Invoice',
+    'invoices.date': 'Date',
+    'invoices.total': 'Total',
+    'invoices.method': 'Method',
+    'invoices.status': 'Status',
+    'invoices.download': 'Download PDF',
+    'invoices.downloadError': 'Could not download the invoice.',
+    'invoices.status.paid': 'Paid',
+    'invoices.status.pending': 'Pending',
+    'invoices.status.failed': 'Failed',
+    'invoices.status.refunded': 'Refunded',
+
+    'reserva.invoiceNumber': 'Invoice',
+    'reserva.downloadInvoice': 'Download invoice (PDF)',
+
     'paypal.card': 'Debit or credit card',
     'paypal.secure': 'Secure payment processed by PayPal',
   },
 }
 
-// Traducción de mensajes de error que llegan del backend (en español).
-// La clave es el texto exacto que devuelve el servidor.
 const ERROR_TRANSLATIONS = {
   'Credenciales incorrectas': 'Incorrect credentials',
   'Correo y contraseña requeridos': 'Email and password are required',
@@ -348,7 +349,6 @@ const ERROR_TRANSLATIONS = {
   'Error al actualizar favoritos': 'Error updating favorites',
 }
 
-// Hook de traducción: devuelve t(clave) y tErr(mensajeBackend) según el idioma activo.
 export function useT() {
   const { lang } = useAuth()
   const dict = translations[lang] || translations.ES
@@ -357,8 +357,6 @@ export function useT() {
     if (translations.ES[key] !== undefined) return translations.ES[key]
     return key
   }
-  // Traduce un mensaje de error del backend. Si el mensaje tiene la forma
-  // "Prefijo: detalle", traduce el prefijo conocido y conserva el detalle.
   const tErr = (message) => {
     if (!message || lang !== 'EN') return message
     if (ERROR_TRANSLATIONS[message]) return ERROR_TRANSLATIONS[message]

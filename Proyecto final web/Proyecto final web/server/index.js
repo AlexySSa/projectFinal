@@ -7,6 +7,7 @@ import vehiculosRoutes from './routes/vehiculos.js'
 import favoritosRoutes from './routes/favoritos.js'
 import reservasRoutes from './routes/reservas.js'
 import paypalRoutes from './routes/paypal.js'
+import facturasRoutes from './routes/facturas.js'
 
 dotenv.config()
 
@@ -28,6 +29,7 @@ app.use('/api/vehiculos', vehiculosRoutes)
 app.use('/api/favoritos', favoritosRoutes)
 app.use('/api/reservas', reservasRoutes)
 app.use('/api/paypal', paypalRoutes)
+app.use('/api/facturas', facturasRoutes)
 
 const PORT = process.env.PORT || 4000
 app.listen(PORT, () => {

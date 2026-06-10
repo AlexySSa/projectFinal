@@ -31,6 +31,7 @@ export default function Reserva() {
   const [fin, setFin] = useState(toInput(Date.now() + DAY))
   const [nombre, setNombre] = useState('')
   const [success, setSuccess] = useState(false)
+  const [factura, setFactura] = useState(null)
   const [error, setError] = useState('')
   const [ocupadas, setOcupadas] = useState([])
 
@@ -45,7 +46,6 @@ export default function Reserva() {
         setOcupadas(
           r
             .map((x) => ({ inicio: x.inicio.slice(0, 10), fin: x.fin.slice(0, 10) }))
-            // Descarta reservas que ya terminaron (fecha de fin anterior a hoy).
             .filter((x) => x.fin >= hoy)
         )
       )
@@ -107,11 +107,27 @@ export default function Reserva() {
   })
 
   const finalizar = async (orderId) => {
-    await api.paypalCapture(orderId, { reserva: datosReserva() })
+    const r = await api.paypalCapture(orderId, { reserva: datosReserva() })
+    if (r?.facturaId) setFactura({ id: r.facturaId, numero: r.numeroFactura })
     setSuccess(true)
   }
 
-  // Flujo simulado (sin credenciales de PayPal configuradas)
+  const descargarFactura = async () => {
+    if (!factura) return
+    try {
+      const blob = await api.downloadFactura(factura.id)
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `factura-${factura.numero}.pdf`
+      document.body.appendChild(a)
+      a.click()
+      a.remove()
+      URL.revokeObjectURL(url)
+    } catch {
+    }
+  }
+
   const pagarSimulado = async () => {
     if (!disponible) return
     setError('')
@@ -242,6 +258,7 @@ export default function Reserva() {
       {success && (
         <SuccessModal
           message={t('reserva.success')}
+          invoice={factura ? { numero: factura.numero, onDownload: descargarFactura } : null}
           onClose={() => {
             setSuccess(false)
             navigate('/catalogo')

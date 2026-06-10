@@ -1,5 +1,3 @@
-// Filtrado compartido de vehículos según el panel de filtros y la búsqueda.
-// El precio actúa como tope máximo (muestra los vehículos con tarifa <= precio).
 export function filtrarVehiculos(list, filters = {}, q = '') {
   const query = (q || '').toLowerCase()
   return list.filter((v) => {

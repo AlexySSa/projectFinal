@@ -2,8 +2,14 @@ import { Router } from 'express'
 import bcrypt from 'bcryptjs'
 import { pool } from '../db.js'
 import { signToken, requireAuth } from '../middleware/auth.js'
+import { sendWelcomeEmail } from '../services/mailer.js'
+import { logError } from '../services/logger.js'
 
 const router = Router()
+
+function fechaLegible(d = new Date()) {
+  return d.toLocaleDateString('es-SV', { day: '2-digit', month: 'long', year: 'numeric' })
+}
 
 function publicUser(u) {
   return { id: u.id, nombre: u.nombre, email: u.email, rol: u.rol, telefono: u.telefono }
@@ -25,6 +31,10 @@ router.post('/register', async (req, res) => {
       [nombre, email, hash, telefono || null, validRol]
     )
     const user = { id: r.insertId, nombre, email, rol: validRol, telefono }
+
+    sendWelcomeEmail({ to: email, nombre, email, fecha: fechaLegible() })
+      .catch((e) => logError('welcome-email', e, { email }))
+
     res.status(201).json({ token: signToken(user), user: publicUser(user) })
   } catch (e) {
     res.status(500).json({ error: 'Error al registrar: ' + e.message })

@@ -36,6 +36,10 @@ export default function UserMenu({ onClose }) {
         </>
       )}
 
+      <button className="um-item um-item-icon" style={{ background: '#3a4a8e' }} onClick={() => go('/facturas')}>
+        <Icon name="receipt_long" className="msi-sm" /> {t('menu.invoices')}
+      </button>
+
       <button
         className="um-item btn-red um-item-icon"
         onClick={() => {

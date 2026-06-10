@@ -27,7 +27,7 @@ async function req(path, { method = 'GET', body } = {}) {
       const data = await res.json()
       if (data.error) message = data.error
     } catch {
-      /* respuesta sin cuerpo JSON */
+      message = 'Error ' + res.status
     }
     throw new Error(message)
   }
@@ -36,12 +36,10 @@ async function req(path, { method = 'GET', body } = {}) {
 }
 
 export const api = {
-  // Auth
   register: (data) => req('/auth/register', { method: 'POST', body: data }),
   login: (data) => req('/auth/login', { method: 'POST', body: data }),
   me: () => req('/auth/me'),
 
-  // Vehículos
   getVehiculos: (params = {}) => {
     const qs = new URLSearchParams(
       Object.entries(params).filter(([, v]) => v)
@@ -53,17 +51,24 @@ export const api = {
   addVehiculo: (data) => req('/vehiculos', { method: 'POST', body: data }),
   deleteVehiculo: (id) => req('/vehiculos/' + id, { method: 'DELETE' }),
 
-  // Favoritos
   getFavoritos: () => req('/favoritos'),
   getFavoritoIds: () => req('/favoritos/ids'),
   toggleFavorito: (id) => req('/favoritos/' + id, { method: 'POST' }),
 
-  // Reservas
   getReservas: () => req('/reservas'),
   getOcupadas: (vehiculoId) => req('/reservas/ocupadas/' + vehiculoId),
 
-  // PayPal
   paypalConfig: () => req('/paypal/config'),
   paypalCreateOrder: (data) => req('/paypal/create-order', { method: 'POST', body: data }),
   paypalCapture: (orderId, data) => req('/paypal/capture/' + orderId, { method: 'POST', body: data }),
+
+  getFacturas: () => req('/facturas'),
+  downloadFactura: async (id) => {
+    const token = getToken()
+    const res = await fetch(BASE + '/facturas/' + id + '/pdf', {
+      headers: token ? { Authorization: 'Bearer ' + token } : {},
+    })
+    if (!res.ok) throw new Error('No se pudo descargar la factura')
+    return res.blob()
+  },
 }

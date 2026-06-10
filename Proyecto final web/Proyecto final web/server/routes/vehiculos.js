@@ -98,7 +98,6 @@ router.delete('/:id', requireAuth, async (req, res) => {
     if (rows[0].owner_id !== req.user.id) {
       return res.status(403).json({ error: 'No tienes permiso para eliminar esta publicación' })
     }
-    // Las reservas y favoritos se eliminan en cascada (ON DELETE CASCADE).
     await pool.query('DELETE FROM vehiculos WHERE id = ?', [req.params.id])
     res.json({ ok: true })
   } catch (e) {

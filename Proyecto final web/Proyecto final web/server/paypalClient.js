@@ -50,3 +50,27 @@ export async function captureOrder(orderId) {
   if (!res.ok) throw new Error(data.message || 'Error capturando el pago de PayPal')
   return data
 }
+
+export function webhookConfigured() {
+  return Boolean(process.env.PAYPAL_WEBHOOK_ID && paypalConfigured())
+}
+
+export async function verifyWebhookSignature(headers, event) {
+  if (!webhookConfigured()) return false
+  const token = await accessToken()
+  const res = await fetch(`${BASE}/v1/notifications/verify-webhook-signature`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      auth_algo: headers['paypal-auth-algo'],
+      cert_url: headers['paypal-cert-url'],
+      transmission_id: headers['paypal-transmission-id'],
+      transmission_sig: headers['paypal-transmission-sig'],
+      transmission_time: headers['paypal-transmission-time'],
+      webhook_id: process.env.PAYPAL_WEBHOOK_ID,
+      webhook_event: event,
+    }),
+  })
+  const data = await res.json()
+  return data.verification_status === 'SUCCESS'
+}

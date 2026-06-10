@@ -342,6 +342,13 @@ input[type=range] { width: 100%; accent-color: var(--orange); }
   padding: 50px 60px; text-align: center; max-width: 560px; width: 100%;
 }
 .modal-success h2 { font-size: 32px; margin: 0 0 24px; }
+.success-invoice {
+  background: rgba(255,255,255,.16); border-radius: 12px; padding: 16px;
+  margin: 0 0 20px; color: #fff;
+}
+.success-invoice p { margin: 0 0 12px; font-size: 16px; }
+.success-invoice-btn { background: #fff; color: #138a3f; }
+.success-invoice-btn:hover { filter: brightness(.96); }
 
 /* Modal pequeño (confirmaciones y avisos) */
 .modal-card {
@@ -543,6 +550,26 @@ input[type=range] { width: 100%; accent-color: var(--orange); }
   color: #8a93a3; font-size: 12px; margin-top: 4px;
 }
 
+/* ===================== Facturas ===================== */
+.invoices-wrap { padding: 22px; max-width: 900px; margin: 0 auto; }
+.invoice-list { display: flex; flex-direction: column; gap: 12px; }
+.invoice-row {
+  background: #fff; border-radius: 12px; box-shadow: var(--card-shadow);
+  padding: 16px 18px; display: flex; align-items: center; justify-content: space-between; gap: 14px;
+}
+.invoice-main { display: flex; flex-direction: column; gap: 4px; }
+.invoice-number { font-weight: 700; display: inline-flex; align-items: center; gap: 6px; }
+.invoice-meta { font-size: 13px; color: var(--muted); }
+.invoice-side { display: flex; align-items: center; gap: 14px; }
+.invoice-total { font-weight: 800; color: var(--navy); }
+.invoice-badge {
+  font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 20px; text-transform: uppercase;
+}
+.badge-paid { background: #e3f5ea; color: #138a3f; }
+.badge-pending { background: #fbf3e7; color: #9a6a1c; }
+.badge-failed { background: #fdecea; color: #c0392b; }
+.badge-refunded { background: #eef2fd; color: #3a4a8e; }
+
 /* ===================== Responsive ===================== */
 
 /* Laptops chicos: 3 columnas de tarjetas */
@@ -631,6 +658,11 @@ input[type=range] { width: 100%; accent-color: var(--orange); }
 
   /* Botón flotante */
   .fab { right: 18px; bottom: 18px; width: 52px; height: 52px; font-size: 26px; }
+
+  /* Facturas */
+  .invoices-wrap { padding: 14px; }
+  .invoice-row { flex-direction: column; align-items: stretch; }
+  .invoice-side { width: 100%; justify-content: space-between; flex-wrap: wrap; }
 }
 
 /* Teléfonos muy angostos */

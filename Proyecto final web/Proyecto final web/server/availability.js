@@ -1,6 +1,5 @@
 import { pool } from './db.js'
 
-// Dos rangos [inicio, fin) se solapan si: existente.inicio < nuevo.fin Y nuevo.inicio < existente.fin
 export async function hayConflicto(vehiculoId, inicio, fin) {
   const [rows] = await pool.query(
     `SELECT COUNT(*) AS n FROM reservas

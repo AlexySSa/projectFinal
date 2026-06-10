@@ -59,3 +59,34 @@ CREATE TABLE IF NOT EXISTS reservas (
   FOREIGN KEY (vehiculo_id) REFERENCES vehiculos(id) ON DELETE CASCADE,
   FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE SET NULL
 );
+
+CREATE TABLE IF NOT EXISTS facturas (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  numero VARCHAR(40) NOT NULL UNIQUE,
+  reserva_id INT,
+  usuario_id INT,
+  nombre_cliente VARCHAR(150),
+  email_cliente VARCHAR(190),
+  subtotal DECIMAL(10, 2) NOT NULL DEFAULT 0,
+  impuesto DECIMAL(10, 2) NOT NULL DEFAULT 0,
+  total DECIMAL(10, 2) NOT NULL DEFAULT 0,
+  moneda VARCHAR(10) NOT NULL DEFAULT 'USD',
+  metodo_pago VARCHAR(40) NOT NULL DEFAULT 'PayPal',
+  estado ENUM('pending', 'paid', 'failed', 'refunded') NOT NULL DEFAULT 'pending',
+  paypal_order_id VARCHAR(100),
+  email_enviado TINYINT(1) NOT NULL DEFAULT 0,
+  creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  actualizado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (reserva_id) REFERENCES reservas(id) ON DELETE SET NULL,
+  FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE SET NULL
+);
+
+CREATE TABLE IF NOT EXISTS detalle_factura (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  factura_id INT NOT NULL,
+  descripcion VARCHAR(255) NOT NULL,
+  cantidad INT NOT NULL DEFAULT 1,
+  precio_unitario DECIMAL(10, 2) NOT NULL DEFAULT 0,
+  importe DECIMAL(10, 2) NOT NULL DEFAULT 0,
+  FOREIGN KEY (factura_id) REFERENCES facturas(id) ON DELETE CASCADE
+);

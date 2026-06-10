@@ -40,7 +40,6 @@ export default function Detalle() {
       const { favorito } = await api.toggleFavorito(id)
       setFav(favorito)
     } catch {
-      /* ignora */
     }
   }
 

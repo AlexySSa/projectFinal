@@ -1,20 +1,6 @@
 import Icon from './Icon.jsx'
 import { useT } from '../i18n.js'
 
-/**
- * Modal pequeño y estético que sigue el esquema del proyecto.
- * Sirve como confirmación (con botón cancelar) o como aviso simple.
- *
- * Props:
- *  - title: título opcional
- *  - message: texto principal
- *  - icon: nombre del ícono (material symbols), opcional
- *  - variant: 'danger' | 'info' (color del ícono y del botón de confirmar)
- *  - confirmLabel / cancelLabel: textos de los botones
- *  - onConfirm: si se pasa, muestra botón de confirmar
- *  - onClose: cierra el modal (también es el "cancelar")
- *  - loading: deshabilita el botón de confirmar
- */
 export default function Modal({
   title,
   message,
