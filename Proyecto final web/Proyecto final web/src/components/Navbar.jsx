@@ -1,23 +1,31 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import { useT } from '../i18n.js'
 import UserMenu from './UserMenu.jsx'
 import Icon from './Icon.jsx'
 
-export default function Navbar({ variant = 'app', title, search, onSearch, showFavorites = false }) {
+export default function Navbar({ variant = 'app', title, search, location, onSearch, showFavorites = false }) {
   const { isLogged, lang, setLang } = useAuth()
   const { t } = useT()
   const navigate = useNavigate()
   const [menuOpen, setMenuOpen] = useState(false)
   const [q, setQ] = useState(search || '')
+  const [loc, setLoc] = useState(location || '')
+
+  useEffect(() => { setQ(search || '') }, [search])
+  useEffect(() => { setLoc(location || '') }, [location])
 
   const closeMenu = () => setMenuOpen(false)
 
   const submitSearch = (e) => {
     e.preventDefault()
-    if (onSearch) onSearch(q)
-    else navigate('/catalogo?q=' + encodeURIComponent(q))
+    if (onSearch) { onSearch(q, loc); return }
+    const sp = new URLSearchParams()
+    if (q.trim()) sp.set('q', q.trim())
+    if (loc.trim()) sp.set('loc', loc.trim())
+    const qs = sp.toString()
+    navigate('/catalogo' + (qs ? '?' + qs : ''))
   }
 
   if (variant === 'titled') {
@@ -44,7 +52,12 @@ export default function Navbar({ variant = 'app', title, search, onSearch, showF
         />
         <span className="search-divider" />
         <span className="search-lead"><Icon name="location_on" className="msi-sm" /></span>
-        <input className="search-input" placeholder={t('search.placeholderLocation')} />
+        <input
+          className="search-input"
+          placeholder={t('search.placeholderLocation')}
+          value={loc}
+          onChange={(e) => setLoc(e.target.value)}
+        />
         <button className="search-btn" type="submit"><Icon name="search" className="msi-sm" /></button>
       </form>
 

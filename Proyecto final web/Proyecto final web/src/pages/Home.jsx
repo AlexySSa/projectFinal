@@ -16,6 +16,7 @@ export default function Home() {
   const { lang, setLang, isLogged } = useAuth()
   const { t } = useT()
   const [q, setQ] = useState('')
+  const [loc, setLoc] = useState('')
   const [destacados, setDestacados] = useState([])
   const favIds = useFavIds()
 
@@ -25,7 +26,11 @@ export default function Home() {
 
   const buscar = (e) => {
     e.preventDefault()
-    navigate('/catalogo?q=' + encodeURIComponent(q))
+    const sp = new URLSearchParams()
+    if (q.trim()) sp.set('q', q.trim())
+    if (loc.trim()) sp.set('loc', loc.trim())
+    const qs = sp.toString()
+    navigate('/catalogo' + (qs ? '?' + qs : ''))
   }
 
   return (
@@ -58,7 +63,11 @@ export default function Home() {
           </div>
           <div className="si">
             <Icon name="location_on" />
-            <input placeholder={t('search.placeholderLocation')} />
+            <input
+              placeholder={t('search.placeholderLocation')}
+              value={loc}
+              onChange={(e) => setLoc(e.target.value)}
+            />
           </div>
           <button className="home-search-btn" type="submit"><Icon name="search" /></button>
         </form>

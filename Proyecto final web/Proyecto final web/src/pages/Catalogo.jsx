@@ -16,7 +16,8 @@ export default function Catalogo() {
   const { isArrendador } = useAuth()
   const { t } = useT()
   const favIds = useFavIds()
-  const q = (params.get('q') || '').toLowerCase()
+  const q = params.get('q') || ''
+  const loc = params.get('loc') || ''
   const cat = params.get('cat') || ''
 
   const [filters, setFilters] = useState({
@@ -27,17 +28,17 @@ export default function Catalogo() {
 
   useEffect(() => {
     setLoading(true)
-    api.getVehiculos({ q: params.get('q') || '', categoria: cat })
+    api.getVehiculos(cat ? { categoria: cat } : {})
       .then(setAll)
       .catch(() => setAll([]))
       .finally(() => setLoading(false))
-  }, [params, cat])
+  }, [cat])
 
-  const resultados = useMemo(() => filtrarVehiculos(all, filters, q), [all, q, filters])
+  const resultados = useMemo(() => filtrarVehiculos(all, filters, q, loc), [all, q, loc, filters])
 
   return (
     <>
-      <Navbar variant="app" search={params.get('q') || ''} showFavorites />
+      <Navbar variant="app" search={q} location={loc} showFavorites />
       <div className="catalog-layout">
         <FilterSidebar filters={filters} setFilters={setFilters} />
 
