@@ -6,24 +6,17 @@ Bahn es una plataforma web para publicar, explorar y reservar vehiculos en alqui
 
 ## Estructura del repositorio
 
-El codigo principal vive dentro de una carpeta anidada:
+El proyecto ahora esta listo para clonar directamente desde la raiz del repo:
 
 ```text
 projectFinal/
   README.md
-  Proyecto final web/
-    Proyecto final web/
-      src/               # frontend React
-      public/            # imagenes y assets
-      server/            # API Express + MySQL
-      vite.config.js
-      package.json
-```
-
-Por eso, la mayoria de comandos de este README se ejecutan dentro de:
-
-```powershell
-cd "Proyecto final web/Proyecto final web"
+  src/               # frontend React
+  public/            # imagenes y assets
+  server/            # API Express + MySQL
+  index.html
+  vite.config.js
+  package.json
 ```
 
 ## Tecnologias
@@ -58,25 +51,15 @@ cd "Proyecto final web/Proyecto final web"
 
 ## Instalacion
 
-Instala dependencias del frontend:
+Instala todas las dependencias desde la raiz:
 
 ```powershell
-cd "Proyecto final web/Proyecto final web"
-npm install
-```
-
-Instala dependencias del backend:
-
-```powershell
-cd "Proyecto final web/Proyecto final web/server"
 npm install
 ```
 
 ## Variables de entorno
 
-### Backend
-
-Crea el archivo `Proyecto final web/Proyecto final web/server/.env`:
+Usa `.env.example` como base y crea un archivo `.env` en la raiz:
 
 ```env
 PORT=4000
@@ -89,13 +72,6 @@ JWT_SECRET=bahn_secret
 PAYPAL_MODE=sandbox
 PAYPAL_CLIENT_ID=
 PAYPAL_SECRET=
-```
-
-### Frontend
-
-Si quieres usar el boton real de PayPal en el cliente, crea `Proyecto final web/Proyecto final web/.env`:
-
-```env
 VITE_PAYPAL_CLIENT_ID=tu_paypal_client_id
 ```
 
@@ -106,7 +82,6 @@ Si no configuras PayPal, el proyecto sigue funcionando con un flujo simulado par
 El backend incluye un script para crear la base de datos, las tablas y datos iniciales:
 
 ```powershell
-cd "Proyecto final web/Proyecto final web/server"
 npm run init-db
 ```
 
@@ -128,14 +103,12 @@ Ese comando:
 Levanta el backend en una terminal:
 
 ```powershell
-cd "Proyecto final web/Proyecto final web/server"
-npm run dev
+npm run dev:server
 ```
 
 Levanta el frontend en otra terminal:
 
 ```powershell
-cd "Proyecto final web/Proyecto final web"
 npm run dev
 ```
 
@@ -154,11 +127,36 @@ Vite ya tiene configurado un proxy para redirigir `/api` al backend local.
 - `npm run build`: genera la version de produccion
 - `npm run preview`: sirve el build generado
 
-### Backend
+### Backend / despliegue
 
-- `npm run dev`: inicia el servidor con `node --watch`
+- `npm run dev:server`: inicia el servidor con `node --watch`
 - `npm run start`: inicia el servidor con Node
 - `npm run init-db`: crea base, tablas y datos demo
+
+## Hostinger
+
+Con esta estructura, Hostinger ya encuentra `package.json` en la raiz del repo.
+
+Configura estos comandos:
+
+- Build command: `npm run build`
+- Start command: `npm start`
+
+Y agrega en Hostinger las variables de entorno del archivo `.env`:
+
+- `PORT`
+- `DB_HOST`
+- `DB_PORT`
+- `DB_USER`
+- `DB_PASSWORD`
+- `DB_NAME`
+- `JWT_SECRET`
+- `PAYPAL_MODE`
+- `PAYPAL_CLIENT_ID`
+- `PAYPAL_SECRET`
+- `VITE_PAYPAL_CLIENT_ID`
+
+En produccion, `npm start` levanta Express y Express sirve el contenido compilado de `dist`.
 
 ## API principal
 
@@ -196,4 +194,4 @@ Vite ya tiene configurado un proxy para redirigir `/api` al backend local.
 - El token se guarda en `localStorage` bajo la clave `bahn_token`.
 - La informacion del usuario se guarda en `localStorage` bajo la clave `bahn_user`.
 - Las fechas ocupadas se consultan antes de confirmar una reserva para evitar cruces.
-- Si usas este proyecto en Windows o PowerShell, manten las comillas en los `cd` porque las carpetas tienen espacios.
+- Ya no hace falta entrar a carpetas con espacios para ejecutar el proyecto.

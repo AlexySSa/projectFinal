@@ -1,2 +1,0 @@
-{"ts":"2026-06-10T05:37:58.694Z","scope":"mailer","error":"SMTP no configurado: correo omitido","to":"demo@bahn.com","subject":"¡Bienvenido a Bahn! Tu cuenta fue creada"}
-{"ts":"2026-06-10T05:38:14.960Z","scope":"webhook","error":"PAYPAL_WEBHOOK_ID no configurado: evento ignorado","type":"PAYMENT.CAPTURE.COMPLETED"}
