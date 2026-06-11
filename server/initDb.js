@@ -9,14 +9,19 @@ dotenv.config()
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
+function resolveDbHost(host) {
+  return !host || host === 'localhost' ? '127.0.0.1' : host
+}
+
 async function main() {
   const schema = fs.readFileSync(path.join(__dirname, 'schema.sql'), 'utf8')
 
   const conn = await mysql.createConnection({
-    host: process.env.DB_HOST || '127.0.0.1',
+    host: resolveDbHost(process.env.DB_HOST),
     port: Number(process.env.DB_PORT) || 3306,
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASSWORD || '',
+    connectTimeout: 10000,
     multipleStatements: true,
   })
 
