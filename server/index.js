@@ -16,6 +16,7 @@ dotenv.config()
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const distDir = path.join(__dirname, '..', 'dist')
+const hasDist = fs.existsSync(distDir)
 
 const app = express()
 app.use(cors())
@@ -37,11 +38,21 @@ app.use('/api/reservas', reservasRoutes)
 app.use('/api/paypal', paypalRoutes)
 app.use('/api/facturas', facturasRoutes)
 
-if (fs.existsSync(distDir)) {
+console.log(`[startup] distDir=${distDir} exists=${hasDist}`)
+
+if (hasDist) {
   app.use(express.static(distDir))
 
   app.get(/^\/(?!api).*/, (req, res) => {
     res.sendFile(path.join(distDir, 'index.html'))
+  })
+} else {
+  console.warn(`[startup] Build output not found at ${distDir}`)
+  app.get('/', (req, res) => {
+    res
+      .status(200)
+      .type('text/plain')
+      .send('Bahn backend running, but the frontend build was not found.')
   })
 }
 
