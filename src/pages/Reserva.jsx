@@ -140,6 +140,15 @@ export default function Reserva() {
     }
   }
 
+  const paypalErrorMessage = (err) => {
+    if (!err) return t('reserva.paypalError')
+    const msg =
+      err?.message ||
+      err?.details?.[0]?.description ||
+      err?.toString?.()
+    return tErr(msg)
+  }
+
   const cover = v.fotos && v.fotos.length ? v.fotos[0] : null
 
   return (
@@ -244,8 +253,14 @@ export default function Reserva() {
                         throw e
                       })
                   }
-                  onApprove={(data) => finalizar(data.orderID)}
-                  onError={() => setError(t('reserva.paypalError'))}
+                  onApprove={(data) =>
+                    finalizar(data.orderID).catch((e) => {
+                      setError(paypalErrorMessage(e))
+                      cargarOcupadas()
+                      throw e
+                    })
+                  }
+                  onError={(err) => setError(paypalErrorMessage(err))}
                 />
               </PayPalScriptProvider>
             ) : (
