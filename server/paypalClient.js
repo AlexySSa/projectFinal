@@ -7,6 +7,16 @@ export function paypalConfigured() {
   return Boolean(process.env.PAYPAL_CLIENT_ID && process.env.PAYPAL_SECRET)
 }
 
+function paypalErrorMessage(data, fallback) {
+  const detail = data?.details?.[0]
+  return (
+    detail?.description ||
+    detail?.issue ||
+    data?.message ||
+    fallback
+  )
+}
+
 async function accessToken() {
   const creds = Buffer.from(
     `${process.env.PAYPAL_CLIENT_ID}:${process.env.PAYPAL_SECRET}`
@@ -36,7 +46,7 @@ export async function createOrder(amount) {
     }),
   })
   const data = await res.json()
-  if (!res.ok) throw new Error(data.message || 'Error creando la orden de PayPal')
+  if (!res.ok) throw new Error(paypalErrorMessage(data, 'Error creando la orden de PayPal'))
   return data
 }
 
@@ -47,7 +57,7 @@ export async function captureOrder(orderId) {
     headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
   })
   const data = await res.json()
-  if (!res.ok) throw new Error(data.message || 'Error capturando el pago de PayPal')
+  if (!res.ok) throw new Error(paypalErrorMessage(data, 'Error capturando el pago de PayPal'))
   return data
 }
 
