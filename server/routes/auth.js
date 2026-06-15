@@ -64,7 +64,7 @@ router.post('/register', async (req, res) => {
   const normalizedEmail = normalizeEmail(email)
 
   if (!nombre || !normalizedEmail || !password) {
-    return res.status(400).json({ error: 'Nombre, correo y contrasena son obligatorios' })
+    return res.status(400).json({ error: 'Nombre, correo y Contraseña son obligatorios' })
   }
   if (!dui || !DUI_REGEX.test(dui)) {
     return res.status(400).json({ error: 'El DUI debe tener el formato 00000000-0' })
@@ -110,7 +110,7 @@ router.post('/login', async (req, res) => {
   const password = req.body?.password || ''
 
   if (!normalizedEmail || !password) {
-    return res.status(400).json({ error: 'Correo y contrasena requeridos' })
+    return res.status(400).json({ error: 'Correo y Contraseña requeridos' })
   }
 
   try {
@@ -186,7 +186,7 @@ router.post('/reset-password', async (req, res) => {
   if (!email) return res.status(400).json({ error: 'Debes ingresar un correo valido' })
   if (!RESET_CODE_REGEX.test(code)) return res.status(400).json({ error: 'El codigo debe tener 6 digitos' })
   if (password.length < 6) {
-    return res.status(400).json({ error: 'La nueva contrasena debe tener al menos 6 caracteres' })
+    return res.status(400).json({ error: 'La nueva contraseña debe tener al menos 6 caracteres' })
   }
   if (!consumeResetCode(email, code)) {
     return res.status(400).json({ error: 'Codigo invalido o vencido' })
@@ -195,7 +195,7 @@ router.post('/reset-password', async (req, res) => {
   try {
     if (isAdminEmail(email)) {
       await resetAdminPassword(password)
-      return res.json({ ok: true, message: 'Contrasena actualizada con exito' })
+      return res.json({ ok: true, message: 'Contraseña actualizada con exito' })
     }
 
     const user = await findRegisteredUser(email)
@@ -203,9 +203,9 @@ router.post('/reset-password', async (req, res) => {
 
     const hash = await bcrypt.hash(password, 10)
     await pool.query('UPDATE usuarios SET password = ? WHERE email = ?', [hash, email])
-    res.json({ ok: true, message: 'Contrasena actualizada con exito' })
+    res.json({ ok: true, message: 'Contraseña actualizada con exito' })
   } catch (error) {
-    res.status(500).json({ error: 'Error al actualizar contrasena: ' + error.message })
+    res.status(500).json({ error: 'Error al actualizar contraseña: ' + error.message })
   }
 })
 
