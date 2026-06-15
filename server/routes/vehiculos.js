@@ -34,6 +34,7 @@ function mapVehiculo(row) {
     peso: row.peso,
     fotos: parseFotos(row.fotos),
     owner: row.owner_id,
+    ownerNombre: row.owner_nombre || null,
   }
 }
 
@@ -60,7 +61,13 @@ router.get('/mios', requireAuth, async (req, res) => {
 })
 
 router.get('/:id', async (req, res) => {
-  const [rows] = await pool.query('SELECT * FROM vehiculos WHERE id = ?', [req.params.id])
+  const [rows] = await pool.query(
+    `SELECT v.*, u.nombre AS owner_nombre
+     FROM vehiculos v
+     LEFT JOIN usuarios u ON u.id = v.owner_id
+     WHERE v.id = ?`,
+    [req.params.id]
+  )
   if (!rows.length) return res.status(404).json({ error: 'Vehículo no encontrado' })
   res.json(mapVehiculo(rows[0]))
 })

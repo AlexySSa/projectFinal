@@ -20,7 +20,14 @@ export default function Auth() {
   const [remail, setREmail] = useState('')
   const [rpass, setRPass] = useState('')
   const [tel, setTel] = useState('')
+  const [dui, setDui] = useState('')
   const [rol, setRol] = useState('arrendador')
+
+  const formatDui = (value) => {
+    const digits = value.replace(/\D/g, '').slice(0, 9)
+    if (digits.length <= 8) return digits
+    return `${digits.slice(0, 8)}-${digits.slice(8)}`
+  }
 
   const doLogin = async (e) => {
     e.preventDefault()
@@ -39,9 +46,13 @@ export default function Auth() {
   const doRegister = async (e) => {
     e.preventDefault()
     setError('')
+    if (!/^\d{8}-\d$/.test(dui)) {
+      setError(t('auth.duiInvalid'))
+      return
+    }
     setLoading(true)
     try {
-      await register({ nombre, email: remail, password: rpass, telefono: tel, rol })
+      await register({ nombre, email: remail, password: rpass, telefono: tel, dui, rol })
       setRegistered(true)
     } catch (err) {
       setError(tErr(err.message))
@@ -95,6 +106,14 @@ export default function Auth() {
               <input className="field" type="email" placeholder={t('auth.email')} value={remail} onChange={(e) => setREmail(e.target.value)} />
               <PasswordField placeholder={t('auth.password')} value={rpass} onChange={(e) => setRPass(e.target.value)} />
               <input className="field" placeholder={t('auth.phone')} value={tel} onChange={(e) => setTel(e.target.value)} />
+              <input
+                className="field"
+                placeholder={t('auth.dui')}
+                value={dui}
+                onChange={(e) => setDui(formatDui(e.target.value))}
+                inputMode="numeric"
+                maxLength={10}
+              />
 
               <label className="field-label" style={{ fontWeight: 700, marginTop: 6 }}>{t('auth.selectRole')}</label>
               <select className="field" value={rol} onChange={(e) => setRol(e.target.value)}>

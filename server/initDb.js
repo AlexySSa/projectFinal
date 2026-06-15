@@ -27,19 +27,31 @@ async function main() {
 
   console.log('Creando base de datos y tablas...')
   await conn.query(schema)
-  await conn.query(`USE ${process.env.DB_NAME || 'bahn'}`)
+  const dbName = process.env.DB_NAME || 'bahn'
+  await conn.query(`USE ${dbName}`)
+
+  const [duiCol] = await conn.query(
+    `SELECT COLUMN_NAME FROM information_schema.COLUMNS
+     WHERE TABLE_SCHEMA = ? AND TABLE_NAME = 'usuarios' AND COLUMN_NAME = 'dui'`,
+    [dbName]
+  )
+  if (!duiCol.length) {
+    await conn.query('ALTER TABLE usuarios ADD COLUMN dui VARCHAR(10) AFTER telefono')
+    console.log('Columna dui agregada a la tabla usuarios.')
+  }
 
   const demoEmail = 'demo@bahn.com'
   const [existing] = await conn.query('SELECT id FROM usuarios WHERE email = ?', [demoEmail])
   let ownerId
   if (existing.length) {
     ownerId = existing[0].id
+    await conn.query('UPDATE usuarios SET dui = ? WHERE id = ? AND (dui IS NULL OR dui = "")', ['00000000-0', ownerId])
     console.log('Usuario demo ya existe.')
   } else {
     const hash = await bcrypt.hash('demo1234', 10)
     const [r] = await conn.query(
-      'INSERT INTO usuarios (nombre, email, password, telefono, rol) VALUES (?, ?, ?, ?, ?)',
-      ['Alexy Sanchez', demoEmail, hash, '0000-0000', 'arrendador']
+      'INSERT INTO usuarios (nombre, email, password, telefono, dui, rol) VALUES (?, ?, ?, ?, ?, ?)',
+      ['Alexy Sanchez', demoEmail, hash, '0000-0000', '00000000-0', 'arrendador']
     )
     ownerId = r.insertId
     console.log('Usuario demo creado:  demo@bahn.com  /  demo1234  (arrendador)')

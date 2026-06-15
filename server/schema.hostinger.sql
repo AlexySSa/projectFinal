@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
   email VARCHAR(190) NOT NULL UNIQUE,
   password VARCHAR(255) NOT NULL,
   telefono VARCHAR(40),
+  dui VARCHAR(10),
   rol ENUM('cliente', 'arrendador') NOT NULL DEFAULT 'cliente',
   creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

@@ -12,13 +12,18 @@ function fechaLegible(d = new Date()) {
 }
 
 function publicUser(u) {
-  return { id: u.id, nombre: u.nombre, email: u.email, rol: u.rol, telefono: u.telefono }
+  return { id: u.id, nombre: u.nombre, email: u.email, rol: u.rol, telefono: u.telefono, dui: u.dui }
 }
 
+const DUI_REGEX = /^\d{8}-\d$/
+
 router.post('/register', async (req, res) => {
-  const { nombre, email, password, telefono, rol } = req.body
+  const { nombre, email, password, telefono, dui, rol } = req.body
   if (!nombre || !email || !password) {
     return res.status(400).json({ error: 'Nombre, correo y contraseña son obligatorios' })
+  }
+  if (!dui || !DUI_REGEX.test(dui)) {
+    return res.status(400).json({ error: 'El DUI debe tener el formato 00000000-0' })
   }
   try {
     const [exists] = await pool.query('SELECT id FROM usuarios WHERE email = ?', [email])
@@ -27,10 +32,10 @@ router.post('/register', async (req, res) => {
     const hash = await bcrypt.hash(password, 10)
     const validRol = rol === 'arrendador' ? 'arrendador' : 'cliente'
     const [r] = await pool.query(
-      'INSERT INTO usuarios (nombre, email, password, telefono, rol) VALUES (?, ?, ?, ?, ?)',
-      [nombre, email, hash, telefono || null, validRol]
+      'INSERT INTO usuarios (nombre, email, password, telefono, dui, rol) VALUES (?, ?, ?, ?, ?, ?)',
+      [nombre, email, hash, telefono || null, dui, validRol]
     )
-    const user = { id: r.insertId, nombre, email, rol: validRol, telefono }
+    const user = { id: r.insertId, nombre, email, rol: validRol, telefono, dui }
 
     sendWelcomeEmail({ to: email, nombre, email, fecha: fechaLegible() })
       .catch((e) => logError('welcome-email', e, { email }))
