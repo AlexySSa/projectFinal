@@ -13,7 +13,7 @@ const CATEGORIES = ['Autos', 'Motocicletas', 'Maquinaria Pesada', 'Agrícola']
 
 export default function Home() {
   const navigate = useNavigate()
-  const { lang, setLang, isLogged } = useAuth()
+  const { lang, setLang, isLogged, isAdmin } = useAuth()
   const { t } = useT()
   const [q, setQ] = useState('')
   const [loc, setLoc] = useState('')
@@ -43,8 +43,8 @@ export default function Home() {
               <button className={lang === 'ES' ? 'active' : ''} onClick={() => setLang('ES')}>ES</button>
               <button className={lang === 'EN' ? 'active' : ''} onClick={() => setLang('EN')}>EN</button>
             </div>
-            <button className="btn-login" onClick={() => navigate(isLogged ? '/catalogo' : '/auth')}>
-              {isLogged ? t('home.goCatalog') : t('auth.loginRegister')}
+            <button className="btn-login" onClick={() => navigate(isLogged ? (isAdmin ? '/admin' : '/catalogo') : '/auth')}>
+              {isLogged ? (isAdmin ? t('home.goAdmin') : t('home.goCatalog')) : t('auth.loginRegister')}
             </button>
           </div>
         </div>

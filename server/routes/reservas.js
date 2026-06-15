@@ -15,6 +15,7 @@ router.get('/ocupadas/:vehiculoId', async (req, res) => {
 })
 
 router.get('/', requireAuth, async (req, res) => {
+  if (req.user?.rol === 'admin') return res.status(403).json({ error: 'Solo el admin puede entrar aqui' })
   const [rows] = await pool.query(
     `SELECT r.*, v.titulo AS vehiculo_titulo
      FROM reservas r

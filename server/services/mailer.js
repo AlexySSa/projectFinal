@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer'
 import { logError } from './logger.js'
-import { welcomeEmail, invoiceEmail } from './emailTemplates.js'
+import { welcomeEmail, invoiceEmail, passwordResetEmail } from './emailTemplates.js'
 
 export function mailerConfigured() {
   return Boolean(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS)
@@ -58,4 +58,9 @@ export async function sendInvoiceEmail({ to, datos, pdfBuffer }) {
       },
     ],
   })
+}
+
+export async function sendPasswordResetCodeEmail({ to, nombre, codigo, minutes }) {
+  const tpl = passwordResetEmail({ nombre, codigo, minutes })
+  return send({ to, ...tpl })
 }

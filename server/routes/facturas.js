@@ -8,6 +8,7 @@ const router = Router()
 
 router.get('/', requireAuth, async (req, res) => {
   try {
+    if (req.user?.rol === 'admin') return res.status(403).json({ error: 'Solo el admin puede entrar aqui' })
     const facturas = await facturasDeUsuario(req.user.id)
     res.json(facturas)
   } catch (e) {
@@ -17,6 +18,7 @@ router.get('/', requireAuth, async (req, res) => {
 
 router.get('/:id/pdf', requireAuth, async (req, res) => {
   try {
+    if (req.user?.rol === 'admin') return res.status(403).json({ error: 'Solo el admin puede entrar aqui' })
     const factura = await obtenerFacturaCompleta(req.params.id)
     if (!factura) return res.status(404).json({ error: 'Factura no encontrada' })
     if (factura.usuarioId !== req.user.id) {

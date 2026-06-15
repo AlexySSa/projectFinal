@@ -13,7 +13,7 @@ import { filtrarVehiculos } from '../filters.js'
 export default function Catalogo() {
   const [params] = useSearchParams()
   const navigate = useNavigate()
-  const { isArrendador } = useAuth()
+  const { canManageVehicles } = useAuth()
   const { t } = useT()
   const favIds = useFavIds()
   const q = params.get('q') || ''
@@ -63,7 +63,7 @@ export default function Catalogo() {
         </section>
       </div>
 
-      {isArrendador && (
+      {canManageVehicles && (
         <button className="fab" title={t('vehicle.addVehicle')} onClick={() => navigate('/nuevo-vehiculo')}>
           <Icon name="add" className="msi-lg" />
         </button>

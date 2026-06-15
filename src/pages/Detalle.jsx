@@ -11,7 +11,7 @@ import { useT } from '../i18n.js'
 export default function Detalle() {
   const { id } = useParams()
   const navigate = useNavigate()
-  const { isLogged, user } = useAuth()
+  const { isLogged, isAdmin, user } = useAuth()
   const { t, tErr } = useT()
   const [v, setV] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -26,10 +26,10 @@ export default function Detalle() {
   }, [id])
 
   useEffect(() => {
-    if (isLogged) {
+    if (isLogged && !isAdmin) {
       api.getFavoritoIds().then((ids) => setFav(ids.includes(Number(id)))).catch(() => {})
     }
-  }, [id, isLogged])
+  }, [id, isAdmin, isLogged])
 
   const toggleFav = async () => {
     if (!isLogged) {
@@ -153,21 +153,25 @@ export default function Detalle() {
                 <span><strong>{t('detail.publishedBy')}</strong> {v.ownerNombre}</span>
               </p>
             )}
-            <button
-              className={'btn btn-block btn-icon ' + (fav ? 'btn-fav-active' : 'btn-outline')}
-              style={{ marginTop: 14 }}
-              onClick={toggleFav}
-            >
-              <Icon name="favorite" className="msi-sm" fill={fav} />
-              {fav ? t('detail.inWishlist') : t('detail.addWishlist')}
-            </button>
-            <button
-              className="btn btn-blue btn-block btn-icon"
-              style={{ marginTop: 10 }}
-              onClick={() => navigate('/reservar/' + id)}
-            >
-              <Icon name="credit_card" className="msi-sm" /> {t('detail.makeReservation')}
-            </button>
+            {!isAdmin && (
+              <>
+                <button
+                  className={'btn btn-block btn-icon ' + (fav ? 'btn-fav-active' : 'btn-outline')}
+                  style={{ marginTop: 14 }}
+                  onClick={toggleFav}
+                >
+                  <Icon name="favorite" className="msi-sm" fill={fav} />
+                  {fav ? t('detail.inWishlist') : t('detail.addWishlist')}
+                </button>
+                <button
+                  className="btn btn-blue btn-block btn-icon"
+                  style={{ marginTop: 10 }}
+                  onClick={() => navigate('/reservar/' + id)}
+                >
+                  <Icon name="credit_card" className="msi-sm" /> {t('detail.makeReservation')}
+                </button>
+              </>
+            )}
             {isLogged && user && v.owner === user.id && (
               <button
                 className="btn btn-red btn-block btn-icon"

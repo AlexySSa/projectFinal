@@ -6,7 +6,7 @@ import UserMenu from './UserMenu.jsx'
 import Icon from './Icon.jsx'
 
 export default function Navbar({ variant = 'app', title, search, location, onSearch, showFavorites = false }) {
-  const { isLogged, lang, setLang } = useAuth()
+  const { isLogged, isAdmin, lang, setLang } = useAuth()
   const { t } = useT()
   const navigate = useNavigate()
   const [menuOpen, setMenuOpen] = useState(false)
@@ -71,7 +71,7 @@ export default function Navbar({ variant = 'app', title, search, location, onSea
 
       <div className="nav-spacer" />
 
-      {showFavorites && (
+      {showFavorites && !isAdmin && (
         <Link to="/favoritos" className="icon-btn" title={t('favorites.title')}><Icon name="favorite" /></Link>
       )}
 

@@ -97,6 +97,9 @@ router.get('/config', (req, res) => {
 router.post('/create-order', optionalAuth, async (req, res) => {
   const { total, reserva } = req.body
   try {
+    if (req.user?.rol === 'admin') {
+      return res.status(403).json({ error: 'El admin no puede realizar reservas' })
+    }
     if (reserva && reserva.vehiculoId) {
       if (await hayConflicto(reserva.vehiculoId, reserva.inicio, reserva.fin)) {
         return res.status(409).json({ error: FECHAS_OCUPADAS })
@@ -119,6 +122,9 @@ router.post('/capture/:orderId', optionalAuth, async (req, res) => {
     return res.status(400).json({ error: 'Faltan datos de la reserva' })
   }
   try {
+    if (req.user?.rol === 'admin') {
+      return res.status(403).json({ error: 'El admin no puede realizar reservas' })
+    }
     if (await hayConflicto(reserva.vehiculoId, reserva.inicio, reserva.fin)) {
       return res.status(409).json({ error: FECHAS_OCUPADAS })
     }
@@ -131,7 +137,7 @@ router.post('/capture/:orderId', optionalAuth, async (req, res) => {
       estado = captura.status === 'COMPLETED' ? 'confirmada' : 'pendiente'
     }
 
-    const reservaId = await guardarReserva(reserva, orderId, estado, req.user?.id)
+    const reservaId = await guardarReserva(reserva, orderId, estado, req.user?.id || null)
 
     let factura = null
     if (estado === 'confirmada') {

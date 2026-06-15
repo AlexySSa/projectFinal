@@ -35,22 +35,8 @@ function loadSchema() {
   return fs.readFileSync(schemaPath, 'utf8')
 }
 
-async function ensureUsuariosDuiColumn(conn, dbName) {
-  const [duiCol] = await conn.query(
-    `SELECT COLUMN_NAME FROM information_schema.COLUMNS
-     WHERE TABLE_SCHEMA = ? AND TABLE_NAME = 'usuarios' AND COLUMN_NAME = 'dui'`,
-    [dbName]
-  )
-
-  if (!duiCol.length) {
-    await conn.query('ALTER TABLE usuarios ADD COLUMN dui VARCHAR(10) AFTER telefono')
-    console.log('[db] Columna dui agregada a la tabla usuarios.')
-  }
-}
-
-async function applySchema(conn, dbName) {
+async function applySchema(conn) {
   await conn.query(loadSchema())
-  await ensureUsuariosDuiColumn(conn, dbName)
 }
 
 export async function createDatabaseConnection() {
@@ -67,7 +53,7 @@ export async function ensureDatabaseSchema() {
   try {
     const conn = await createDatabaseConnection()
     try {
-      await applySchema(conn, dbName)
+      await applySchema(conn)
     } finally {
       await conn.end()
     }
@@ -86,7 +72,7 @@ export async function ensureDatabaseSchema() {
       `CREATE DATABASE IF NOT EXISTS ${escapeIdentifier(dbName)} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`
     )
     await conn.query(`USE ${escapeIdentifier(dbName)}`)
-    await applySchema(conn, dbName)
+    await applySchema(conn)
   } finally {
     await conn.end()
   }

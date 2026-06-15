@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react'
-import { api, setToken, getToken } from '../api.js'
+import { api, getToken, setToken } from '../api.js'
 
 const AuthContext = createContext(null)
 const USER_KEY = 'bahn_user'
@@ -31,23 +31,23 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     if (getToken() && !user) {
-      api.me().then((r) => setUser(r.user)).catch(() => logout())
+      api.me().then((response) => setUser(response.user)).catch(() => logout())
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const login = async ({ email, password }) => {
-    const { token, user: u } = await api.login({ email, password })
+    const { token, user: nextUser } = await api.login({ email, password })
     setToken(token)
-    setUser(u)
-    return u
+    setUser(nextUser)
+    return nextUser
   }
 
   const register = async (data) => {
-    const { token, user: u } = await api.register(data)
+    const { token, user: nextUser } = await api.register(data)
     setToken(token)
-    setUser(u)
-    return u
+    setUser(nextUser)
+    return nextUser
   }
 
   const logout = () => {
@@ -55,11 +55,26 @@ export function AuthProvider({ children }) {
     setUser(null)
   }
 
-  const isLogged = !!user
+  const isLogged = Boolean(user)
+  const isAdmin = user?.rol === 'admin'
   const isArrendador = user?.rol === 'arrendador'
+  const canManageVehicles = isArrendador && !isAdmin
 
   return (
-    <AuthContext.Provider value={{ user, isLogged, isArrendador, login, register, logout, lang, setLang }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        isLogged,
+        isAdmin,
+        isArrendador,
+        canManageVehicles,
+        login,
+        register,
+        logout,
+        lang,
+        setLang,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   )

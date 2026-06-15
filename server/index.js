@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url'
 import { pool } from './db.js'
 import { ensureDatabaseSchema } from './dbSetup.js'
 import authRoutes from './routes/auth.js'
+import adminRoutes from './routes/admin.js'
 import vehiculosRoutes from './routes/vehiculos.js'
 import favoritosRoutes from './routes/favoritos.js'
 import reservasRoutes from './routes/reservas.js'
@@ -33,6 +34,7 @@ app.get('/api/health', async (req, res) => {
 })
 
 app.use('/api/auth', authRoutes)
+app.use('/api/admin', adminRoutes)
 app.use('/api/vehiculos', vehiculosRoutes)
 app.use('/api/favoritos', favoritosRoutes)
 app.use('/api/reservas', reservasRoutes)

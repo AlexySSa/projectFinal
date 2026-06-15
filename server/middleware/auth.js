@@ -9,22 +9,35 @@ function readToken(req) {
   return null
 }
 
+function verifyToken(token) {
+  return jwt.verify(token, SECRET)
+}
+
 export function requireAuth(req, res, next) {
   const token = readToken(req)
   if (!token) return res.status(401).json({ error: 'No autenticado' })
   try {
-    req.user = jwt.verify(token, SECRET)
+    req.user = verifyToken(token)
     next()
   } catch {
-    res.status(401).json({ error: 'Sesión inválida' })
+    res.status(401).json({ error: 'Sesion invalida' })
   }
+}
+
+export function requireAdmin(req, res, next) {
+  requireAuth(req, res, () => {
+    if (req.user?.rol !== 'admin') {
+      return res.status(403).json({ error: 'Solo el admin puede entrar aqui' })
+    }
+    next()
+  })
 }
 
 export function optionalAuth(req, res, next) {
   const token = readToken(req)
   if (token) {
     try {
-      req.user = jwt.verify(token, SECRET)
+      req.user = verifyToken(token)
     } catch {
       req.user = null
     }

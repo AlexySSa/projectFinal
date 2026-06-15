@@ -10,7 +10,7 @@ import Modal from './Modal.jsx'
 
 export default function VehicleCard({ v, fav = false, onToggle, onDelete }) {
   const navigate = useNavigate()
-  const { isLogged, user } = useAuth()
+  const { isLogged, isAdmin, user } = useAuth()
   const { t, tErr } = useT()
   const [isFav, setIsFav] = useState(fav)
   const [confirmOpen, setConfirmOpen] = useState(false)
@@ -62,13 +62,15 @@ export default function VehicleCard({ v, fav = false, onToggle, onDelete }) {
             <Icon name="delete" className="msi-sm" />
           </button>
         )}
-        <button
-          className={'v-fav' + (isFav ? ' v-fav-active' : '')}
-          onClick={toggle}
-          title={isFav ? t('fav.remove') : t('fav.add')}
-        >
-          <Icon name="favorite" className="msi-sm" fill={isFav} />
-        </button>
+        {!isAdmin && (
+          <button
+            className={'v-fav' + (isFav ? ' v-fav-active' : '')}
+            onClick={toggle}
+            title={isFav ? t('fav.remove') : t('fav.add')}
+          >
+            <Icon name="favorite" className="msi-sm" fill={isFav} />
+          </button>
+        )}
       </div>
       <div className="v-body">
         <p className="v-title">{v.titulo}</p>

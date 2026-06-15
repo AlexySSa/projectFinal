@@ -15,6 +15,7 @@ function parseFotos(raw) {
 }
 
 router.get('/', requireAuth, async (req, res) => {
+  if (req.user?.rol === 'admin') return res.status(403).json({ error: 'El admin no usa favoritos' })
   const [rows] = await pool.query(
     `SELECT v.* FROM vehiculos v
      JOIN favoritos f ON f.vehiculo_id = v.id
@@ -37,11 +38,13 @@ router.get('/', requireAuth, async (req, res) => {
 })
 
 router.get('/ids', requireAuth, async (req, res) => {
+  if (req.user?.rol === 'admin') return res.status(403).json({ error: 'El admin no usa favoritos' })
   const [rows] = await pool.query('SELECT vehiculo_id FROM favoritos WHERE usuario_id = ?', [req.user.id])
   res.json(rows.map((r) => r.vehiculo_id))
 })
 
 router.post('/:id', requireAuth, async (req, res) => {
+  if (req.user?.rol === 'admin') return res.status(403).json({ error: 'El admin no usa favoritos' })
   const vehiculoId = Number(req.params.id)
   try {
     const [exists] = await pool.query(

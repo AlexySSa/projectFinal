@@ -39,6 +39,9 @@ export const api = {
   register: (data) => req('/auth/register', { method: 'POST', body: data }),
   login: (data) => req('/auth/login', { method: 'POST', body: data }),
   me: () => req('/auth/me'),
+  forgotPassword: (data) => req('/auth/forgot-password', { method: 'POST', body: data }),
+  resetPassword: (data) => req('/auth/reset-password', { method: 'POST', body: data }),
+  getAdminStats: () => req('/admin/stats'),
 
   getVehiculos: (params = {}) => {
     const qs = new URLSearchParams(

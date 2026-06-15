@@ -8,20 +8,27 @@ async function main() {
   const conn = await createDatabaseConnection()
 
   try {
+    const [columnRows] = await conn.query('SHOW COLUMNS FROM usuarios')
+    const hasDuiColumn = columnRows.some((row) => row.Field === 'dui')
     const demoEmail = 'demo@bahn.com'
     const [existing] = await conn.query('SELECT id FROM usuarios WHERE email = ?', [demoEmail])
     let ownerId
 
     if (existing.length) {
       ownerId = existing[0].id
-      await conn.query('UPDATE usuarios SET dui = ? WHERE id = ? AND (dui IS NULL OR dui = "")', ['00000000-0', ownerId])
+      if (hasDuiColumn) {
+        await conn.query('UPDATE usuarios SET dui = ? WHERE id = ? AND (dui IS NULL OR dui = "")', ['00000000-0', ownerId])
+      }
       console.log('Usuario demo ya existe.')
     } else {
       const hash = await bcrypt.hash('demo1234', 10)
-      const [r] = await conn.query(
-        'INSERT INTO usuarios (nombre, email, password, telefono, dui, rol) VALUES (?, ?, ?, ?, ?, ?)',
-        ['Alexy Sanchez', demoEmail, hash, '0000-0000', '00000000-0', 'arrendador']
-      )
+      const insertSql = hasDuiColumn
+        ? 'INSERT INTO usuarios (nombre, email, password, telefono, dui, rol) VALUES (?, ?, ?, ?, ?, ?)'
+        : 'INSERT INTO usuarios (nombre, email, password, telefono, rol) VALUES (?, ?, ?, ?, ?)'
+      const insertParams = hasDuiColumn
+        ? ['Alexy Sanchez', demoEmail, hash, '0000-0000', '00000000-0', 'arrendador']
+        : ['Alexy Sanchez', demoEmail, hash, '0000-0000', 'arrendador']
+      const [r] = await conn.query(insertSql, insertParams)
       ownerId = r.insertId
       console.log('Usuario demo creado:  demo@bahn.com  /  demo1234  (arrendador)')
     }

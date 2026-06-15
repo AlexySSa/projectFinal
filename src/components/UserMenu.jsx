@@ -4,7 +4,7 @@ import { useT } from '../i18n.js'
 import Icon from './Icon.jsx'
 
 export default function UserMenu({ onClose }) {
-  const { user, isArrendador, logout, lang, setLang } = useAuth()
+  const { user, isAdmin, canManageVehicles, logout, lang, setLang } = useAuth()
   const { t } = useT()
   const navigate = useNavigate()
 
@@ -25,20 +25,28 @@ export default function UserMenu({ onClose }) {
         <button className={lang === 'EN' ? 'active' : ''} onClick={() => setLang('EN')}>EN</button>
       </div>
 
-      {isArrendador && (
+      {isAdmin ? (
+        <button className="um-item btn-indigo um-item-icon" onClick={() => go('/admin')}>
+          <Icon name="monitoring" className="msi-sm" /> {t('menu.adminPanel')}
+        </button>
+      ) : (
         <>
-          <button className="um-item btn-green um-item-icon" onClick={() => go('/nuevo-vehiculo')}>
-            <Icon name="add" className="msi-sm" /> {t('menu.addVehicle')}
-          </button>
-          <button className="um-item um-item-icon" style={{ background: '#6b7280' }} onClick={() => go('/mis-vehiculos')}>
-            <Icon name="directions_car" className="msi-sm" /> {t('menu.myVehicles')}
+          {canManageVehicles && (
+            <>
+              <button className="um-item btn-green um-item-icon" onClick={() => go('/nuevo-vehiculo')}>
+                <Icon name="add" className="msi-sm" /> {t('menu.addVehicle')}
+              </button>
+              <button className="um-item um-item-icon" style={{ background: '#6b7280' }} onClick={() => go('/mis-vehiculos')}>
+                <Icon name="directions_car" className="msi-sm" /> {t('menu.myVehicles')}
+              </button>
+            </>
+          )}
+
+          <button className="um-item um-item-icon" style={{ background: '#3a4a8e' }} onClick={() => go('/facturas')}>
+            <Icon name="receipt_long" className="msi-sm" /> {t('menu.invoices')}
           </button>
         </>
       )}
-
-      <button className="um-item um-item-icon" style={{ background: '#3a4a8e' }} onClick={() => go('/facturas')}>
-        <Icon name="receipt_long" className="msi-sm" /> {t('menu.invoices')}
-      </button>
 
       <button
         className="um-item btn-red um-item-icon"
