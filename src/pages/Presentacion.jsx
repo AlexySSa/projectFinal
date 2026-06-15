@@ -138,7 +138,7 @@ const gallery = [
 export default function Presentacion() {
   useEffect(() => {
     const previousTitle = document.title
-    document.title = 'Bahn | Presentacion para stand'
+    document.title = 'Bahn | Presentacion'
 
     const existingMeta = document.querySelector('meta[name="robots"]')
     const previousContent = existingMeta?.getAttribute('content') ?? null
@@ -168,11 +168,7 @@ export default function Presentacion() {
       <div className="presentation-shell presentation-hero">
         <div className="presentation-topbar">
           <Link to="/" className="presentation-brand" aria-label="Ir al inicio de Bahn">
-            <span className="presentation-brand-mark">B</span>
-            <span className="presentation-brand-copy">
-              <span>stand universitario</span>
-              <strong>Bahn</strong>
-            </span>
+            <img className="presentation-brand-logo" src="/bahn-logo.svg" alt="Bahn Renta de Vehiculos" />
           </Link>
 
           <nav className="presentation-mini-nav" aria-label="Secciones de la presentacion">
@@ -185,7 +181,7 @@ export default function Presentacion() {
 
         <div className="presentation-hero-grid">
           <div className="presentation-copy">
-            <span className="presentation-kicker">Ruta privada para presentacion - /presentacion</span>
+            <span className="presentation-kicker">Presentacion del proyecto</span>
             <h1>Una plataforma de movilidad y renta para gestionar reservas en un solo lugar.</h1>
             <p>
               Bahn convierte una idea universitaria en una experiencia con forma de producto real:
@@ -195,8 +191,8 @@ export default function Presentacion() {
 
             <div className="presentation-hero-pills">
               <span>Universitario</span>
-              <span>Tech demo</span>
-              <span>Hostinger ready</span>
+              <span>Renta de vehiculos</span>
+              <span>Reservas y gestion</span>
             </div>
 
             <div className="presentation-actions">
@@ -232,7 +228,7 @@ export default function Presentacion() {
                   <span />
                   <span />
                 </div>
-                <span className="presentation-preview-chip">demo privada</span>
+                <span className="presentation-preview-chip">bahn</span>
               </div>
 
               <div className="presentation-preview-copy">

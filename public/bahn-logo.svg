@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 220" role="img" aria-labelledby="bahnLogoTitle">
+  <title id="bahnLogoTitle">Bahn Renta de Vehiculos</title>
+  <defs>
+    <linearGradient id="bahnOrange" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f1853f" />
+      <stop offset="100%" stop-color="#e8722d" />
+    </linearGradient>
+    <filter id="bahnShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#c95f1a" flood-opacity=".2" />
+    </filter>
+  </defs>
+
+  <g filter="url(#bahnShadow)">
+    <rect x="8" y="20" width="180" height="180" rx="38" fill="url(#bahnOrange)" />
+  </g>
+
+  <text
+    x="43"
+    y="148"
+    fill="#ffffff"
+    font-family="Arial Black, Arial, sans-serif"
+    font-size="138"
+    font-weight="900"
+    letter-spacing="-6"
+  >
+    B
+  </text>
+
+  <path
+    d="M57 143c13-10 29-16 47-16 18 0 34 6 47 16h22c10 0 17 3 22 9-8 0-16 1-23 5l-12 7H56c-7 0-11-5-11-12 0-3 1-6 3-9 3 2 6 3 9 3Zm30 5h16c4 0 6 2 7 6l4 8H83c-7 0-12-4-14-10l8-1Zm47-19c11 0 22 4 31 12h-11c-8-6-17-8-28-8-13 0-24 3-35 8H78c16-8 35-12 56-12Z"
+    fill="#e8722d"
+  />
+
+  <text
+    x="225"
+    y="126"
+    fill="#1c2430"
+    font-family="Inter, Segoe UI, Arial, sans-serif"
+    font-size="118"
+    font-weight="800"
+    letter-spacing="-4"
+  >
+    Bahn
+  </text>
+
+  <text
+    x="228"
+    y="181"
+    fill="#384556"
+    font-family="Inter, Segoe UI, Arial, sans-serif"
+    font-size="52"
+    font-weight="500"
+  >
+    Renta de Vehiculos
+  </text>
+</svg>
