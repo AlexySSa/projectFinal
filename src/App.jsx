@@ -10,6 +10,7 @@ import Favoritos from './pages/Favoritos.jsx'
 import Reserva from './pages/Reserva.jsx'
 import Facturas from './pages/Facturas.jsx'
 import AdminDashboard from './pages/AdminDashboard.jsx'
+import Presentacion from './pages/Presentacion.jsx'
 
 function Protected({ children, adminOnly = false, arrendadorOnly = false, nonAdminOnly = false }) {
   const { isLogged, isAdmin, isArrendador } = useAuth()
@@ -37,6 +38,7 @@ export default function App() {
       <Route path="/mis-vehiculos" element={<Protected arrendadorOnly><MisVehiculos /></Protected>} />
       <Route path="/nuevo-vehiculo" element={<Protected arrendadorOnly><NuevoVehiculo /></Protected>} />
       <Route path="/admin" element={<Protected adminOnly><AdminDashboard /></Protected>} />
+      <Route path="/presentacion" element={<Presentacion />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )

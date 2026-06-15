@@ -187,10 +187,13 @@ En produccion, `npm start` levanta Express y Express sirve el contenido compilad
 - `/reservar/:id`
 - `/mis-vehiculos`
 - `/nuevo-vehiculo`
+- `/presentacion`
 
 ## Notas utiles
 
 - Las rutas `/mis-vehiculos` y `/nuevo-vehiculo` requieren sesion iniciada.
+- La ruta `/presentacion` esta pensada para stand y no se enlaza desde la navegacion publica.
+- En produccion, `/presentacion` responde con `X-Robots-Tag: noindex, nofollow, noarchive`.
 - El token se guarda en `localStorage` bajo la clave `bahn_token`.
 - La informacion del usuario se guarda en `localStorage` bajo la clave `bahn_user`.
 - Las fechas ocupadas se consultan antes de confirmar una reserva para evitar cruces.

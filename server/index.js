@@ -19,6 +19,7 @@ dotenv.config()
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const distDir = path.join(__dirname, '..', 'dist')
 const hasDist = fs.existsSync(distDir)
+const distIndex = path.join(distDir, 'index.html')
 
 const app = express()
 app.use(cors())
@@ -44,10 +45,21 @@ app.use('/api/facturas', facturasRoutes)
 console.log(`[startup] distDir=${distDir} exists=${hasDist}`)
 
 if (hasDist) {
+  const sendFrontend = (res, headers = {}) => {
+    for (const [name, value] of Object.entries(headers)) {
+      res.setHeader(name, value)
+    }
+    res.sendFile(distIndex)
+  }
+
+  app.get(/^\/presentacion\/?$/i, (req, res) => {
+    sendFrontend(res, { 'X-Robots-Tag': 'noindex, nofollow, noarchive' })
+  })
+
   app.use(express.static(distDir))
 
   app.get(/^\/(?!api).*/, (req, res) => {
-    res.sendFile(path.join(distDir, 'index.html'))
+    sendFrontend(res)
   })
 } else {
   console.warn(`[startup] Build output not found at ${distDir}`)
