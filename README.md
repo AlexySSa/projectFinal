@@ -158,6 +158,8 @@ Y agrega en Hostinger las variables de entorno del archivo `.env`:
 
 En produccion, `npm start` levanta Express y Express sirve el contenido compilado de `dist`.
 
+La ruta privada `/presentacion` usa ese mismo flujo de produccion, asi que tambien queda accesible en Hostinger mientras la app sirva `dist/index.html`.
+
 ## API principal
 
 - `GET /api/health`
