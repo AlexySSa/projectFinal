@@ -18,6 +18,11 @@ export default function Navbar({ variant = 'app', title, search, location, onSea
 
   const closeMenu = () => setMenuOpen(false)
 
+  const goBack = () => {
+    if (window.history.length > 1) navigate(-1)
+    else navigate('/')
+  }
+
   const submitSearch = (e) => {
     e.preventDefault()
     if (onSearch) { onSearch(q, loc); return }
@@ -40,6 +45,9 @@ export default function Navbar({ variant = 'app', title, search, location, onSea
 
   return (
     <div className="navbar" onClick={closeMenu}>
+      <button className="nav-back" onClick={goBack} title={t('common.back')} aria-label={t('common.back')}>
+        <Icon name="arrow_back" />
+      </button>
       <Link to="/" className="brand">Bahn</Link>
 
       <form className="search-group" onSubmit={submitSearch}>
