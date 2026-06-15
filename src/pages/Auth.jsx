@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext.jsx'
 import { useT } from '../i18n.js'
 import PasswordField from '../components/PasswordField.jsx'
 import SuccessModal from '../components/SuccessModal.jsx'
+import Icon from '../components/Icon.jsx'
 
 export default function Auth() {
   const { login, register } = useAuth()
@@ -63,6 +64,9 @@ export default function Auth() {
 
   return (
     <div className="auth-wrap">
+      <button className="auth-back" onClick={() => navigate('/')} aria-label={t('common.back')}>
+        <Icon name="arrow_back" className="msi-sm" /> {t('common.back')}
+      </button>
       <div className="auth-card">
         <div className="auth-visual">
           <div className="auth-visual-overlay" />
