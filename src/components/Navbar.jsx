@@ -79,6 +79,7 @@ export default function Navbar({ variant = 'app', title, search, location, onSea
 
 function UserArea({ isLogged, navigate, menuOpen, setMenuOpen, closeMenu }) {
   const { t } = useT()
+  const { user } = useAuth()
   if (!isLogged) {
     return (
       <button className="btn-login" onClick={() => navigate('/auth')}>
@@ -95,7 +96,7 @@ function UserArea({ isLogged, navigate, menuOpen, setMenuOpen, closeMenu }) {
           setMenuOpen((o) => !o)
         }}
       >
-        {t('common.user')} <Icon name="account_circle" className="msi-lg" />
+        {user?.nombre || t('common.user')} <Icon name="account_circle" className="msi-lg" />
       </button>
       <button className="hamburger" onClick={(e) => { e.stopPropagation(); setMenuOpen((o) => !o) }}>
         <Icon name="menu" />

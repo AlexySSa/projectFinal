@@ -1,4 +1,3 @@
-/* ===================== Bahn — Design tokens ===================== */
 :root {
   --navy: #22395a;
   --navy-dark: #1b2f4d;
@@ -32,7 +31,6 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* ===================== Material Symbols (Google Icons) ===================== */
 .material-symbols-outlined {
   font-family: 'Material Symbols Outlined';
   font-weight: normal;
@@ -58,8 +56,8 @@ body {
 a { color: inherit; text-decoration: none; }
 button { font-family: inherit; cursor: pointer; }
 ul { margin: 0; padding: 0; list-style: none; }
+img, svg, video { max-width: 100%; }
 
-/* ===================== Buttons ===================== */
 .btn {
   border: none;
   border-radius: 10px;
@@ -83,7 +81,6 @@ ul { margin: 0; padding: 0; list-style: none; }
 }
 .btn-lg { padding: 14px 22px; font-size: 17px; }
 
-/* ===================== Inputs ===================== */
 .field-label {
   display: block;
   font-size: 14px;
@@ -104,7 +101,6 @@ ul { margin: 0; padding: 0; list-style: none; }
 textarea.field { resize: vertical; min-height: 70px; }
 select.field { appearance: auto; }
 
-/* ===================== Top navbar ===================== */
 .navbar {
   background: var(--navy);
   color: #fff;
@@ -174,7 +170,6 @@ select.field { appearance: auto; }
 }
 .back-link { color: var(--text); font-weight: 600; font-size: 14px; display: inline-flex; gap: 8px; }
 
-/* ===================== User dropdown menu ===================== */
 .user-menu {
   position: absolute; top: 60px; right: 14px;
   width: 230px; background: #cfd7e6; border-radius: 12px; padding: 10px;
@@ -195,11 +190,9 @@ select.field { appearance: auto; }
 .user-menu .um-lang button.active { background: #fff; color: var(--navy); }
 .um-item { border: none; border-radius: 8px; padding: 11px; font-weight: 600; color: #fff; text-align: center; }
 
-/* ===================== Generic layout ===================== */
 .page { min-height: calc(100% - 64px); }
 .container { max-width: 1100px; margin: 0 auto; padding: 24px; }
 
-/* ===================== Home ===================== */
 .home-hero {
   background: var(--navy); color: #fff; padding: 40px 24px 90px; position: relative;
 }
@@ -245,7 +238,6 @@ select.field { appearance: auto; }
 .section-head h2 { font-size: 22px; margin: 0; }
 .link-orange { color: var(--orange); font-weight: 700; }
 
-/* ===================== Catalog ===================== */
 .catalog-layout { display: grid; grid-template-columns: 250px 1fr; gap: 22px; padding: 22px; }
 .filter-card {
   background: var(--panel-blue); border-radius: var(--radius); padding: 22px;
@@ -261,7 +253,6 @@ input[type=range] { width: 100%; accent-color: var(--orange); }
 .results-card h2 { margin: 0 0 18px; font-size: 26px; }
 .cards-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
 
-/* ===================== Vehicle card ===================== */
 .v-card {
   background: #fff; border-radius: 12px; overflow: hidden; box-shadow: var(--card-shadow);
   cursor: pointer; transition: transform .12s ease; display: flex; flex-direction: column;
@@ -281,19 +272,37 @@ input[type=range] { width: 100%; accent-color: var(--orange); }
 
 .empty-state { text-align: center; color: var(--muted); padding: 60px 20px; }
 
-/* Floating add button */
 .fab {
   position: fixed; right: 34px; bottom: 30px; width: 58px; height: 58px;
   border-radius: 14px; background: var(--green); color: #fff; border: none;
   font-size: 30px; box-shadow: 0 8px 20px rgba(22,163,74,.45); z-index: 20;
 }
 
-/* ===================== Detail ===================== */
 .detail-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 26px; padding: 26px; }
 .detail-main img, .detail-hero {
   width: 100%; border-radius: 14px; background: #fff; box-shadow: var(--card-shadow);
   aspect-ratio: 1.7/1; object-fit: contain; display: flex; align-items: center; justify-content: center; font-size: 80px;
 }
+.detail-image-wrap { position: relative; }
+.img-nav {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 44px; height: 44px; border-radius: 50%; border: none; cursor: pointer;
+  background: rgba(20, 28, 52, 0.55); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity .15s ease, background .15s ease;
+}
+.detail-image-wrap:hover .img-nav { opacity: 1; }
+.img-nav:hover { background: rgba(20, 28, 52, 0.85); }
+.img-nav-prev { left: 14px; }
+.img-nav-next { right: 14px; }
+
+.thumb-nav {
+  flex: 0 0 auto; width: 34px; height: 34px; border-radius: 50%; cursor: pointer;
+  border: 1px solid #d3d9e3; background: #fff; color: #3a4a8e;
+  display: flex; align-items: center; justify-content: center; transition: background .12s ease;
+}
+.thumb-nav:hover { background: #eef1f7; }
+
 .thumbs { display: flex; gap: 12px; margin: 16px 0; align-items: center; }
 .thumb {
   width: 120px; aspect-ratio: 1.4/1; border-radius: 10px; overflow: hidden; background: #e7eaf0;
@@ -304,11 +313,11 @@ input[type=range] { width: 100%; accent-color: var(--orange); }
   background: #f3f5f9; border-radius: 14px; padding: 22px; align-self: start; box-shadow: var(--card-shadow);
 }
 .detail-side h1 { margin: 0 0 16px; font-size: 26px; }
+.detail-owner { display: flex; align-items: center; gap: 6px; margin-top: 6px; color: #3a4a8e; }
 .detail-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 10px; }
 .spec-block h3 { margin: 0 0 8px; }
 .spec-block p { margin: 2px 0; line-height: 1.6; }
 
-/* ===================== Nuevo vehículo ===================== */
 .form-panel {
   background: var(--page-blue); border-radius: var(--radius); margin: 22px;
   padding: 34px; min-height: 70vh;
@@ -332,7 +341,6 @@ input[type=range] { width: 100%; accent-color: var(--orange); }
   align-self: start;
 }
 
-/* ===================== Modal ===================== */
 .modal-overlay {
   position: fixed; inset: 0; background: rgba(0,0,0,.35); z-index: 100;
   display: flex; align-items: center; justify-content: center; padding: 20px;
@@ -350,7 +358,6 @@ input[type=range] { width: 100%; accent-color: var(--orange); }
 .success-invoice-btn { background: #fff; color: #138a3f; }
 .success-invoice-btn:hover { filter: brightness(.96); }
 
-/* Modal pequeño (confirmaciones y avisos) */
 .modal-card {
   background: #fff; border-radius: 16px; padding: 32px 34px; text-align: center;
   max-width: 420px; width: 100%; box-shadow: 0 20px 50px rgba(0,0,0,.25);
@@ -366,9 +373,8 @@ input[type=range] { width: 100%; accent-color: var(--orange); }
 .modal-actions { display: flex; gap: 12px; justify-content: center; }
 .modal-actions .btn { min-width: 120px; }
 
-/* ===================== Auth ===================== */
 .auth-wrap {
-  min-height: 100vh; background: #cfcfcf; display: flex; align-items: center;
+  min-height: 100vh; min-height: 100dvh; background: #cfcfcf; display: flex; align-items: center;
   justify-content: center; padding: 30px;
 }
 .auth-card {
@@ -400,7 +406,6 @@ input[type=range] { width: 100%; accent-color: var(--orange); }
 .auth-form .field { background: #fff; }
 .auth-form .field { margin-bottom: 14px; }
 
-/* Campo de contraseña con "ojito" */
 .password-field { position: relative; margin-bottom: 14px; }
 .password-field .field { margin-bottom: 0; padding-right: 44px; }
 .password-toggle {
@@ -415,51 +420,41 @@ input[type=range] { width: 100%; accent-color: var(--orange); }
   border-radius: 8px; padding: 10px 12px; font-size: 14px; margin-bottom: 14px;
 }
 
-/* ===================== Pulidos / utilidades ===================== */
 .btn-icon { display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
 .um-item-icon { display: flex; align-items: center; justify-content: center; gap: 8px; }
 .search-lead { display: flex; align-items: center; padding-left: 12px; color: #9aa3b2; }
 .search-btn { display: flex; align-items: center; justify-content: center; }
 
-/* sombras suaves a botones de color */
 .btn-orange { box-shadow: 0 4px 12px rgba(232,114,45,.28); }
 .btn-green { box-shadow: 0 4px 12px rgba(22,163,74,.25); }
 .btn-blue { box-shadow: 0 4px 12px rgba(37,99,235,.25); }
 .btn { transition: filter .15s ease, transform .06s ease, box-shadow .15s ease; }
 .btn:focus-visible { outline: 3px solid rgba(34,57,90,.35); outline-offset: 2px; }
 
-/* navbar con leve profundidad */
 .navbar { box-shadow: 0 2px 10px rgba(20,40,80,.12); }
 .icon-btn, .hamburger, .user-chip { transition: opacity .15s ease; }
 .icon-btn:hover, .hamburger:hover, .user-chip:hover { opacity: .8; }
 
-/* tarjetas con transición y sombra más marcada al hover */
 .v-card, .cat-card { transition: transform .15s ease, box-shadow .15s ease; }
 .v-card:hover { box-shadow: 0 12px 26px rgba(20,40,80,.16); }
 .cat-card:hover { box-shadow: 0 12px 26px rgba(20,40,80,.16); }
 
-/* galería: miniatura activa resaltada */
 .thumb { transition: outline .12s ease, transform .12s ease; outline: 2px solid transparent; }
 .thumb:hover { transform: translateY(-2px); }
 .thumb-active { outline: 2px solid var(--orange); }
 
-/* inputs: foco con anillo */
 .field { transition: border-color .15s ease, box-shadow .15s ease, background .15s ease; }
 .field:focus { box-shadow: 0 0 0 3px rgba(34,57,90,.12); }
 
-/* dropzone hover */
 .dropzone { transition: border-color .15s ease, background .15s ease; }
 .dropzone:hover { border-color: var(--navy); background: #fafbff; }
 
-/* fab hover */
 .fab { transition: transform .12s ease, box-shadow .15s ease; }
 .fab:hover { transform: translateY(-2px) scale(1.04); }
 
-/* enlaces tipo "Explorar catálogo" */
 .link-orange { transition: opacity .15s ease; }
 .link-orange:hover { opacity: .75; }
 
-/* ===================== Favorito en tarjeta ===================== */
 .v-thumb { position: relative; }
 .v-fav {
   position: absolute; top: 8px; right: 8px; width: 34px; height: 34px;
@@ -470,7 +465,6 @@ input[type=range] { width: 100%; accent-color: var(--orange); }
 .v-fav:hover { transform: scale(1.1); }
 .v-fav-active { color: #e0245e; }
 
-/* botón eliminar en la tarjeta (solo en publicaciones propias) */
 .v-del {
   position: absolute; top: 8px; left: 8px; width: 34px; height: 34px;
   border-radius: 50%; border: none; background: rgba(255,255,255,.92);
@@ -480,10 +474,8 @@ input[type=range] { width: 100%; accent-color: var(--orange); }
 .v-del:hover { transform: scale(1.1); background: var(--red); color: #fff; }
 .v-del:disabled { opacity: .6; cursor: default; transform: none; }
 
-/* botón "En tus deseados" activo en el detalle */
 .btn-fav-active { background: #fdecf1; color: #e0245e; border: 1px solid #f5c2d3; }
 
-/* ===================== Reserva / Pago ===================== */
 .reserva-wrap { padding: 22px; }
 .reserva-grid {
   max-width: 1000px; margin: 0 auto;
@@ -530,7 +522,6 @@ input[type=range] { width: 100%; accent-color: var(--orange); }
 .summary-total { font-size: 18px; font-weight: 800; color: var(--text); }
 .summary-pay-label { font-weight: 700; margin: 20px 0 10px; }
 
-/* ===================== Botones PayPal ===================== */
 .pp-buttons { display: flex; flex-direction: column; gap: 10px; }
 .pp-btn {
   border: none; border-radius: 24px; height: 46px; font-size: 16px; font-weight: 700;
@@ -550,7 +541,6 @@ input[type=range] { width: 100%; accent-color: var(--orange); }
   color: #8a93a3; font-size: 12px; margin-top: 4px;
 }
 
-/* ===================== Facturas ===================== */
 .invoices-wrap { padding: 22px; max-width: 900px; margin: 0 auto; }
 .invoice-list { display: flex; flex-direction: column; gap: 12px; }
 .invoice-row {
@@ -570,24 +560,30 @@ input[type=range] { width: 100%; accent-color: var(--orange); }
 .badge-failed { background: #fdecea; color: #c0392b; }
 .badge-refunded { background: #eef2fd; color: #3a4a8e; }
 
-/* ===================== Responsive ===================== */
+@media (min-width: 901px) {
+  .hamburger { display: none; }
+}
 
-/* Laptops chicos: 3 columnas de tarjetas */
+@media (hover: none) {
+  .img-nav { opacity: 1; background: rgba(20, 28, 52, 0.45); }
+}
+
 @media (max-width: 1180px) {
   .cards-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
-/* Tablets */
 @media (max-width: 900px) {
-  /* Navbar: la búsqueda pasa a su propia fila a lo ancho */
+
   .navbar { flex-wrap: wrap; height: auto; padding: 10px 16px; row-gap: 10px; }
   .search-group { order: 10; flex: 1 1 100%; width: 100%; }
+  .user-chip { display: none; }
   .user-menu { top: calc(100% + 4px); }
 
   .catalog-layout { grid-template-columns: 1fr; padding: 16px; }
   .cards-grid { grid-template-columns: repeat(2, 1fr); }
   .cat-grid { grid-template-columns: repeat(2, 1fr); }
   .detail-grid { grid-template-columns: 1fr; padding: 18px; }
+  .detail-main, .reserva-left, .reserva-summary { min-width: 0; }
   .auth-card { grid-template-columns: 1fr; }
   .auth-visual { min-height: 200px; }
   .two-col, .publish-layout, .detail-cols { grid-template-columns: 1fr; }
@@ -597,18 +593,17 @@ input[type=range] { width: 100%; accent-color: var(--orange); }
   .home-hero h1 { font-size: 34px; }
 }
 
-/* Teléfonos */
 @media (max-width: 560px) {
-  .cards-grid, .cat-grid { grid-template-columns: 1fr; }
+  .cards-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .v-foot { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .v-loc { max-width: 100%; }
 
   .navbar { padding: 10px 14px; gap: 8px; }
   .brand { font-size: 20px; }
   .navbar-title { font-size: 18px; }
-  .user-chip { font-size: 13px; }
   .btn-login { font-size: 13px; padding: 8px 12px; }
   .user-menu { right: 8px; left: 8px; width: auto; }
 
-  /* Home */
   .home-hero { padding: 24px 16px 80px; }
   .home-topbar { margin-bottom: 22px; }
   .home-hero h1 { font-size: 26px; }
@@ -620,53 +615,46 @@ input[type=range] { width: 100%; accent-color: var(--orange); }
   .cat-card h3 { font-size: 18px; }
   .section-head h2 { font-size: 20px; }
 
-  /* Catálogo / filtros */
   .catalog-layout { padding: 12px; gap: 16px; }
   .filter-card, .results-card { padding: 16px; }
   .filter-card h2, .results-card h2 { font-size: 22px; }
 
-  /* Detalle */
   .detail-grid { padding: 14px; gap: 18px; }
   .detail-side h1 { font-size: 22px; }
   .thumbs { overflow-x: auto; padding-bottom: 4px; }
   .thumb { width: 92px; flex: 0 0 auto; }
 
-  /* Reserva */
   .reserva-wrap { padding: 14px; }
   .res-vehicle { grid-template-columns: 1fr; }
   .res-vehicle-thumb { width: 100%; aspect-ratio: 1.7/1; }
   .reserva-card, .reserva-summary { padding: 16px; }
 
-  /* Nuevo vehículo */
   .form-panel { padding: 16px; margin: 12px; }
   .form-panel h2 { font-size: 22px; }
   .dropzone { min-height: 220px; }
   .preview-grid { grid-template-columns: repeat(2, 1fr); }
 
-  /* Auth */
   .auth-wrap { padding: 14px; }
   .auth-form { margin: 12px; padding: 22px; }
   .auth-visual { min-height: 160px; padding: 22px; }
   .auth-visual .brand-lg { font-size: 34px; }
 
-  /* Modales */
   .modal-success { padding: 34px 24px; }
   .modal-success h2 { font-size: 24px; }
   .modal-card { padding: 24px 20px; }
   .modal-actions { flex-direction: column; }
   .modal-actions .btn { width: 100%; }
 
-  /* Botón flotante */
   .fab { right: 18px; bottom: 18px; width: 52px; height: 52px; font-size: 26px; }
 
-  /* Facturas */
   .invoices-wrap { padding: 14px; }
   .invoice-row { flex-direction: column; align-items: stretch; }
   .invoice-side { width: 100%; justify-content: space-between; flex-wrap: wrap; }
 }
 
-/* Teléfonos muy angostos */
 @media (max-width: 380px) {
+  .cards-grid, .cat-grid { grid-template-columns: 1fr; }
+  .v-foot { flex-direction: row; align-items: center; }
   .lang-toggle button { padding: 5px 10px; }
   .home-hero h1 { font-size: 22px; }
   .detail-side h1 { font-size: 20px; }

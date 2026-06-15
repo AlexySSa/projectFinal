@@ -76,19 +76,39 @@ export default function Detalle() {
   const icon = CATEGORY_ICON[v.categoria] || 'directions_car'
   const fotos = v.fotos && v.fotos.length ? v.fotos : []
   const main = fotos[active]
+  const hasMultiple = fotos.length > 1
+  const prevFoto = () => setActive((i) => (i - 1 + fotos.length) % fotos.length)
+  const nextFoto = () => setActive((i) => (i + 1) % fotos.length)
 
   return (
     <>
       <Navbar variant="app" />
       <div className="detail-grid">
         <div className="detail-main">
-          {main ? (
-            <img src={main} alt={v.titulo} />
-          ) : (
-            <div className="detail-hero"><Icon name={icon} className="msi-xl" /></div>
-          )}
+          <div className="detail-image-wrap">
+            {main ? (
+              <img src={main} alt={v.titulo} />
+            ) : (
+              <div className="detail-hero"><Icon name={icon} className="msi-xl" /></div>
+            )}
+            {hasMultiple && (
+              <>
+                <button className="img-nav img-nav-prev" onClick={prevFoto} aria-label={t('detail.prevPhoto')}>
+                  <Icon name="chevron_left" className="msi-lg" />
+                </button>
+                <button className="img-nav img-nav-next" onClick={nextFoto} aria-label={t('detail.nextPhoto')}>
+                  <Icon name="chevron_right" className="msi-lg" />
+                </button>
+              </>
+            )}
+          </div>
 
           <div className="thumbs">
+            {hasMultiple && (
+              <button className="thumb-nav" onClick={prevFoto} aria-label={t('detail.prevPhoto')}>
+                <Icon name="chevron_left" className="msi-lg" />
+              </button>
+            )}
             {(fotos.length ? fotos : [null, null, null, null]).map((f, i) => (
               <div
                 key={i}
@@ -98,7 +118,11 @@ export default function Detalle() {
                 {f ? <img src={f} alt="" /> : <Icon name={icon} className="msi-lg" />}
               </div>
             ))}
-            <Icon name="chevron_right" className="msi-lg" style={{ color: '#5a6478' }} />
+            {hasMultiple && (
+              <button className="thumb-nav" onClick={nextFoto} aria-label={t('detail.nextPhoto')}>
+                <Icon name="chevron_right" className="msi-lg" />
+              </button>
+            )}
           </div>
 
           <div className="detail-cols">
@@ -123,6 +147,12 @@ export default function Detalle() {
             <h1>{v.titulo}</h1>
             <p><strong>{t('detail.price')}</strong> ${v.tarifa}/{t('common.perDay')}</p>
             <p><strong>{t('detail.address')}</strong> {v.direccion}</p>
+            {v.ownerNombre && (
+              <p className="detail-owner">
+                <Icon name="account_circle" className="msi-sm" />
+                <span><strong>{t('detail.publishedBy')}</strong> {v.ownerNombre}</span>
+              </p>
+            )}
             <button
               className={'btn btn-block btn-icon ' + (fav ? 'btn-fav-active' : 'btn-outline')}
               style={{ marginTop: 14 }}
