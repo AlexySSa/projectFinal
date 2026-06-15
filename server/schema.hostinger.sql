@@ -89,8 +89,8 @@ CREATE TABLE IF NOT EXISTS detalle_factura (
   FOREIGN KEY (factura_id) REFERENCES facturas(id) ON DELETE CASCADE
 );
 
-INSERT INTO usuarios (nombre, email, password, telefono, rol)
-SELECT 'Alexy Sanchez', 'demo@bahn.com', '$2a$10$pHG0xtCOWuF1.FCXLIxileDh5XyQ7tFwHQMy02TH8McEMEN.UI3uq', '0000-0000', 'arrendador'
+INSERT INTO usuarios (nombre, email, password, telefono, dui, rol)
+SELECT 'Alexy Sanchez', 'demo@bahn.com', '$2a$10$pHG0xtCOWuF1.FCXLIxileDh5XyQ7tFwHQMy02TH8McEMEN.UI3uq', '0000-0000', '00000000-0', 'arrendador'
 WHERE NOT EXISTS (
   SELECT 1 FROM usuarios WHERE email = 'demo@bahn.com'
 );
@@ -137,3 +137,7 @@ WHERE u.email = 'demo@bahn.com'
   AND NOT EXISTS (
     SELECT 1 FROM vehiculos WHERE titulo = 'Yamaha-R7 2025'
   );
+
+UPDATE usuarios
+SET dui = '00000000-0'
+WHERE email = 'demo@bahn.com' AND (dui IS NULL OR dui = '');

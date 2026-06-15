@@ -5,6 +5,7 @@ import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { pool } from './db.js'
+import { ensureDatabaseSchema } from './dbSetup.js'
 import authRoutes from './routes/auth.js'
 import vehiculosRoutes from './routes/vehiculos.js'
 import favoritosRoutes from './routes/favoritos.js'
@@ -57,6 +58,17 @@ if (hasDist) {
 }
 
 const PORT = process.env.PORT || 4000
-app.listen(PORT, () => {
-  console.log(`Servidor Bahn escuchando en el puerto ${PORT}`)
-})
+
+async function startServer() {
+  try {
+    await ensureDatabaseSchema()
+    app.listen(PORT, () => {
+      console.log(`Servidor Bahn escuchando en el puerto ${PORT}`)
+    })
+  } catch (error) {
+    console.error('[startup][db-setup-error]', error)
+    process.exit(1)
+  }
+}
+
+startServer()
