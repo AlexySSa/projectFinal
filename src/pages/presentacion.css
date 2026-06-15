@@ -47,7 +47,7 @@
 }
 
 .presentation-main {
-  margin-top: -68px;
+  margin-top: 0;
   padding-bottom: 72px;
 }
 
@@ -720,9 +720,6 @@
     margin-top: 16px;
   }
 
-  .presentation-main {
-    margin-top: -44px;
-  }
 }
 
 @media (max-width: 560px) {
