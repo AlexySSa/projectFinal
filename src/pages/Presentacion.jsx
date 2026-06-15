@@ -186,7 +186,7 @@ export default function Presentacion() {
         <div className="presentation-hero-grid">
           <div className="presentation-copy">
             <span className="presentation-kicker">Ruta privada para presentacion - /presentacion</span>
-            <h1>Una plataforma de movilidad y renta pensada para impresionar en un stand.</h1>
+            <h1>Una plataforma de movilidad y renta para gestionar reservas en un solo lugar.</h1>
             <p>
               Bahn convierte una idea universitaria en una experiencia con forma de producto real:
               busqueda, publicacion, reserva, pago y administracion dentro de una sola plataforma
@@ -253,7 +253,7 @@ export default function Presentacion() {
 
             <article className="presentation-floating-card presentation-floating-card-top">
               <span>Valor del proyecto</span>
-              <strong>Producto util + demo convincente</strong>
+              <strong>Proyecto funcional y propuesta clara</strong>
             </article>
 
             <article className="presentation-floating-card presentation-floating-card-bottom">
